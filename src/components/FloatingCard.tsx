@@ -72,6 +72,22 @@ export default function FloatingCard({
     };
   }, [engine, initialX, initialY, weight]);
 
+  if (!engine) {
+    // Fallback statis untuk mobile
+    return (
+      <div
+        className={cn(
+          "w-full max-w-sm mx-auto relative",
+          "rounded-3xl border border-soft-primary/30 bg-soft-surface/80 backdrop-blur-md shadow-lg",
+          "p-6 flex flex-col items-center justify-center",
+          className
+        )}
+      >
+        {children}
+      </div>
+    );
+  }
+
   return (
     <div
       ref={cardRef}
