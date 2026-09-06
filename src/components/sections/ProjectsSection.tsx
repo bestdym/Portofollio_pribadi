@@ -2,8 +2,8 @@ import React from 'react';
 import AntiGravityContainer from '../AntiGravityContainer';
 import FloatingCard from '../FloatingCard';
 import SkeletonCard from '../SkeletonCard';
-import { Project } from '../../hooks/usePortfolioData';
-import { ExternalLink, Github } from 'lucide-react';
+import type { Project } from '../../hooks/usePortfolioData';
+import { ExternalLink, Code } from 'lucide-react';
 
 export default function ProjectsSection({ projects, loading }: { projects: Project[], loading: boolean }) {
   
@@ -90,7 +90,7 @@ export default function ProjectsSection({ projects, loading }: { projects: Proje
                           className="flex items-center gap-1 text-sm font-medium text-slate-600 hover:text-slate-800 transition-colors"
                           onPointerDown={(e) => e.stopPropagation()}
                         >
-                          <Github size={16} /> Repo
+                          <Code size={16} /> Repo
                         </a>
                       )}
                     </div>
