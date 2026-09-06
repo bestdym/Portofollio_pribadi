@@ -4,34 +4,39 @@ import FloatingCard from '../FloatingCard';
 
 const skills = [
   { name: "React", icon: "https://cdn.simpleicons.org/react/61DAFB" },
-  { name: "Vue", icon: "https://cdn.simpleicons.org/vuedotjs/4FC08D" },
   { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs/333333" },
   { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript/3178C6" },
-  { name: "Java", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
-  { name: "Dart", icon: "https://cdn.simpleicons.org/dart/0175C2" },
-  { name: "Laravel", icon: "https://cdn.simpleicons.org/laravel/FF2D20" },
   { name: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss/06B6D4" },
   { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs/339939" },
-  { name: "GraphQL", icon: "https://cdn.simpleicons.org/graphql/E10098" },
+  { name: "Supabase", icon: "https://cdn.simpleicons.org/supabase/3ECF8E" },
   { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql/4169E1" },
   { name: "MySQL", icon: "https://cdn.simpleicons.org/mysql/4479A1" },
-  { name: "Supabase", icon: "https://cdn.simpleicons.org/supabase/3ECF8E" },
-  { name: "Matter.js", icon: "https://cdn.simpleicons.org/javascript/F7DF1E" },
-  { name: "Vite", icon: "https://cdn.simpleicons.org/vite/646CFF" }
+  { name: "Laravel", icon: "https://cdn.simpleicons.org/laravel/FF2D20" },
+  { name: "Vue", icon: "https://cdn.simpleicons.org/vuedotjs/4FC08D" }
 ];
 
 export default function AboutSkillsSection() {
-  // Mengacak posisi awal sekali saja saat render pertama
+  // Mengatur posisi awal agar rapat di kiri atas. 
+  // Mencegah masalah kartu spawn di luar layar pada window berukuran kecil.
   const randomizedSkills = useMemo(() => {
-    return skills.map((skill) => ({
-      ...skill,
-      // Acak X dari 50px hingga 350px (area aman container)
-      x: 50 + Math.random() * 300,
-      // Acak Y dari 50px hingga 250px (area aman container)
-      y: 50 + Math.random() * 250,
-      // Acak massa kartu
-      weight: 0.3 + (Math.random() * 0.5)
-    }));
+    return skills.map((skill, index) => {
+      // 3 kolom memastikan lebar maksimal area spawn sangat kecil (aman untuk layar sempit)
+      const cols = 3;
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+      
+      const jitterX = (Math.random() - 0.5) * 15;
+      const jitterY = (Math.random() - 0.5) * 15;
+      
+      return {
+        ...skill,
+        // Menyebar rapat pada X: 80px sampai ~220px (selalu masuk ke dalam layar)
+        x: 80 + (col * 70) + jitterX,
+        // Menyebar rapat pada Y: 80px sampai ~290px
+        y: 80 + (row * 70) + jitterY,
+        weight: 0.3 + (Math.random() * 0.5)
+      };
+    });
   }, []);
 
   return (
@@ -60,10 +65,20 @@ export default function AboutSkillsSection() {
                 initialX={skill.x}
                 initialY={skill.y}
                 weight={skill.weight}
-                className="!rounded-full px-5 py-2 !p-0 h-12 border-soft-primary/40 bg-white/80 backdrop-blur-sm hover:bg-white text-slate-700 font-medium whitespace-nowrap flex flex-row gap-3 items-center"
+                shape="circle"
+                className="!rounded-full w-16 h-16 !p-0 border border-slate-200/50 bg-white/80 backdrop-blur-md hover:bg-white hover:border-soft-primary/50 hover:shadow-lg transition-all flex justify-center items-center group relative"
               >
-                <img src={skill.icon} alt={skill.name} className="w-6 h-6 object-contain drop-shadow-sm pointer-events-none" />
-                <span className="pointer-events-none">{skill.name}</span>
+                {/* Ikon: Grayscale saat diam, berwarna saat di-hover */}
+                <img 
+                  src={skill.icon} 
+                  alt={skill.name} 
+                  className="w-8 h-8 object-contain pointer-events-none grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110" 
+                />
+                
+                {/* Nama skill muncul melayang di bawah saat di-hover */}
+                <span className="absolute -bottom-10 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0 bg-slate-800 text-white text-xs font-semibold px-3 py-1.5 rounded-full whitespace-nowrap pointer-events-none z-50 shadow-md">
+                  {skill.name}
+                </span>
               </FloatingCard>
             ))}
           </AntiGravityContainer>

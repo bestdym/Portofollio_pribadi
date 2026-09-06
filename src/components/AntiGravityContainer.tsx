@@ -120,6 +120,43 @@ export default function AntiGravityContainer({ children, className = '' }: AntiG
               });
             }
           }
+
+          // Hard Clamp: Mencegah bola melewati batas visual (menembus dinding)
+          // Menggunakan ukuran asli physics body secara dinamis, sehingga tahan terhadap zoom atau perubahan ukuran font (rem)
+          const currentWidth = sceneRef.current?.clientWidth || 0;
+          const currentHeight = sceneRef.current?.clientHeight || 0;
+          
+          if (currentWidth && currentHeight) {
+            let clampedX = body.position.x;
+            let clampedY = body.position.y;
+            let velX = body.velocity.x;
+            let velY = body.velocity.y;
+
+            // Hitung jari-jari (radius) batas secara dinamis dari dimensi physics body
+            const radiusX = (body.bounds.max.x - body.bounds.min.x) / 2;
+            const radiusY = (body.bounds.max.y - body.bounds.min.y) / 2;
+
+            if (body.position.x < radiusX) {
+              clampedX = radiusX;
+              velX = Math.abs(velX) * 0.5; // Memantul
+            } else if (body.position.x > currentWidth - radiusX) {
+              clampedX = currentWidth - radiusX;
+              velX = -Math.abs(velX) * 0.5;
+            }
+
+            if (body.position.y < radiusY) {
+              clampedY = radiusY;
+              velY = Math.abs(velY) * 0.5;
+            } else if (body.position.y > currentHeight - radiusY) {
+              clampedY = currentHeight - radiusY;
+              velY = -Math.abs(velY) * 0.5;
+            }
+
+            if (clampedX !== body.position.x || clampedY !== body.position.y) {
+              Matter.Body.setPosition(body, { x: clampedX, y: clampedY });
+              Matter.Body.setVelocity(body, { x: velX, y: velY });
+            }
+          }
         }
       });
     });
@@ -149,7 +186,7 @@ export default function AntiGravityContainer({ children, className = '' }: AntiG
     <PhysicsContext.Provider value={{ engine: engineRef.current }}>
       <div 
         ref={sceneRef} 
-        className={`relative overflow-hidden w-full h-full min-h-[80vh] ${className}`}
+        className={`relative overflow-hidden w-full h-full ${className}`}
       >
         {engineReady && children}
       </div>
