@@ -54,17 +54,9 @@ export default function AboutSkillsSection() {
                   alt={skill.name} 
                   className="w-12 h-12 md:w-14 md:h-14 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                 />
-                <div className="absolute -top-16 left-1/2 -translate-x-1/2 flex flex-col items-center opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-300 pointer-events-none z-20">
-                  <div className="bg-slate-800/80 backdrop-blur-sm text-white px-3 py-1.5 rounded-lg shadow-xl flex flex-col items-center gap-0.5 min-w-[100px]">
-                    <span className="text-xs font-semibold whitespace-nowrap">{skill.name}</span>
-                    <div className="flex gap-0.5 text-[10px]">
-                      {[...Array(5)].map((_, i) => (
-                        <span key={i} className={i < skill.stars ? "text-amber-400" : "text-slate-500/50"}>★</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-t-[6px] border-t-slate-800/80"></div>
-                </div>
+                <span className="absolute -bottom-8 text-slate-600 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                  {skill.name}
+                </span>
               </div>
             ))}
           </div>

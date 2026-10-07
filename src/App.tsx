@@ -1,12 +1,14 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import HeroSection from './components/sections/HeroSection';
 import ProjectsSection from './components/sections/ProjectsSection';
 import AboutSkillsSection from './components/sections/AboutSkillsSection';
 import ContactSection from './components/sections/ContactSection';
 import { usePortfolioData } from './hooks/usePortfolioData';
+import Admin from './pages/Admin';
 
-function App() {
+function Home() {
   const { profile, projects, loading, error } = usePortfolioData();
 
   return (
@@ -36,6 +38,17 @@ function App() {
         <p className="text-sm mt-1">Built with React, Matter.js & Supabase</p>
       </footer>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
