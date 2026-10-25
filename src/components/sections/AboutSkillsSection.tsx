@@ -18,7 +18,7 @@ const databases = [
 
 export default function AboutSkillsSection() {
   return (
-    <section id="skills" className="pb-24 pt-12 bg-slate-50 relative overflow-hidden flex flex-col items-center justify-center min-h-[50vh]">
+    <section id="skills" className="pb-24 pt-12 bg-white relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh] border-t border-slate-100">
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center w-full">
         <h2 className="text-3xl md:text-5xl font-bold text-slate-800 mb-16 tracking-tight">Tech Stack</h2>
         
@@ -33,7 +33,7 @@ export default function AboutSkillsSection() {
                 <img 
                   src={skill.icon} 
                   alt={skill.name} 
-                  className="w-12 h-12 md:w-14 md:h-14 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  className="w-12 h-12 md:w-14 md:h-14 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                 />
                 <span className="absolute -bottom-8 text-slate-600 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
                   {skill.name}
@@ -52,7 +52,7 @@ export default function AboutSkillsSection() {
                 <img 
                   src={skill.icon} 
                   alt={skill.name} 
-                  className="w-12 h-12 md:w-14 md:h-14 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+                  className="w-12 h-12 md:w-14 md:h-14 object-contain grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                 />
                 <span className="absolute -bottom-8 text-slate-600 text-xs font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
                   {skill.name}

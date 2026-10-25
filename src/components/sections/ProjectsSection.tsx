@@ -5,7 +5,7 @@ import { ExternalLink, Code } from 'lucide-react';
 
 export default function ProjectsSection({ projects, loading }: { projects: Project[], loading: boolean }) {
   return (
-    <section id="projects" className="py-24 bg-slate-50 border-t border-white">
+    <section id="projects" className="py-24 bg-slate-50/60 border-t border-slate-100">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Featured Projects</h2>
@@ -16,42 +16,49 @@ export default function ProjectsSection({ projects, loading }: { projects: Proje
 
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center">
-            {[1, 2, 3].map(i => <SkeletonCard key={i} />)}
+            {[1, 2, 3].map((i) => <SkeletonCard key={i} />)}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project) => (
               <div 
                 key={project.id}
-                className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group"
+                className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 border border-slate-200/80 group"
               >
-                <div className="relative h-56 w-full bg-slate-200 overflow-hidden">
+                <div className="relative h-52 w-full bg-slate-100 overflow-hidden flex items-center justify-center">
                   {project.thumbnail_url ? (
                     <img 
                       src={project.thumbnail_url} 
                       alt={project.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       draggable={false}
+                      onError={(e) => {
+                        (e.target as HTMLElement).style.display = 'none';
+                      }}
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400 bg-soft-primary/10">
-                      No Image
+                    <div className="text-slate-400 text-sm font-medium flex flex-col items-center gap-1">
+                      <Code className="w-6 h-6 text-slate-300" />
+                      <span className="text-xs font-mono text-slate-400">Project Showcase</span>
                     </div>
                   )}
+
                   {/* Overlay Tags */}
-                  <div className="absolute bottom-3 left-3 flex flex-wrap gap-1.5">
-                    {project.tags?.slice(0, 3).map(tag => (
-                      <span key={tag} className="text-xs font-medium px-2.5 py-1 bg-black/60 backdrop-blur-md text-white rounded-md">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
+                  {project.tags && project.tags.length > 0 && (
+                    <div className="absolute bottom-3 left-3 flex flex-wrap gap-1.5">
+                      {project.tags.slice(0, 3).map((tag) => (
+                        <span key={tag} className="text-xs font-medium px-2.5 py-1 bg-black/60 backdrop-blur-md text-white rounded-md">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6 flex flex-col flex-1">
                   <h3 className="font-bold text-xl text-slate-800 mb-2 leading-tight">{project.title}</h3>
                   <p className="text-sm text-slate-600 line-clamp-3 mb-6 flex-1">
-                    {project.description}
+                    {project.description || 'Tidak ada deskripsi proyek.'}
                   </p>
                   
                   <div className="flex items-center gap-4 mt-auto pt-4 border-t border-slate-100">
@@ -60,7 +67,7 @@ export default function ProjectsSection({ projects, loading }: { projects: Proje
                         href={project.demo_url} 
                         target="_blank" 
                         rel="noreferrer"
-                        className="flex items-center gap-1.5 text-sm font-semibold text-soft-primary hover:text-soft-primary/80 transition-colors"
+                        className="flex items-center gap-1.5 text-sm font-semibold text-blue-500 hover:text-blue-600 transition-colors"
                       >
                         <ExternalLink size={16} /> Live Demo
                       </a>

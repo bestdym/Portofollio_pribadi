@@ -27,21 +27,21 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-soft-bg relative">
+    <section id="contact" className="py-24 bg-slate-50/50 border-t border-slate-100 relative">
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Let's Connect</h2>
-          <p className="text-slate-500">Have a project in mind or just want to say hi? Drop a message below.</p>
+          <p className="text-slate-500 text-sm md:text-base">Have a project in mind or just want to say hi? Drop a message below.</p>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-md border border-white/50 shadow-xl rounded-3xl p-8 md:p-12">
+        <div className="bg-white border border-slate-200/80 shadow-md rounded-3xl p-8 md:p-12">
           {status === 'success' && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-600 rounded-xl text-center font-medium">
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center font-medium text-sm">
               Message sent successfully! I'll get back to you soon.
             </div>
           )}
           {status === 'error' && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-center font-medium">
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-center font-medium text-sm">
               {errorMessage}
             </div>
           )}
@@ -49,7 +49,7 @@ export default function ContactSection() {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium text-slate-600">Name</label>
+                <label htmlFor="name" className="text-sm font-medium text-slate-700">Name</label>
                 <input
                   type="text"
                   id="name"
@@ -58,12 +58,12 @@ export default function ContactSection() {
                   onChange={handleChange}
                   required
                   disabled={status === 'loading'}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-soft-primary/50 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-500 transition-all text-sm"
                   placeholder="John Doe"
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-slate-600">Email</label>
+                <label htmlFor="email" className="text-sm font-medium text-slate-700">Email</label>
                 <input
                   type="email"
                   id="email"
@@ -72,14 +72,14 @@ export default function ContactSection() {
                   onChange={handleChange}
                   required
                   disabled={status === 'loading'}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-soft-primary/50 transition-all"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-500 transition-all text-sm"
                   placeholder="john@example.com"
                 />
               </div>
             </div>
             
             <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium text-slate-600">Message</label>
+              <label htmlFor="message" className="text-sm font-medium text-slate-700">Message</label>
               <textarea
                 id="message"
                 name="message"
@@ -88,7 +88,7 @@ export default function ContactSection() {
                 required
                 disabled={status === 'loading'}
                 rows={5}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-soft-primary/50 transition-all resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-500 transition-all resize-none text-sm"
                 placeholder="Your message here..."
               ></textarea>
             </div>
@@ -96,7 +96,7 @@ export default function ContactSection() {
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full py-4 bg-soft-primary text-white rounded-xl font-bold hover:bg-soft-primary/90 transition-colors disabled:opacity-70 shadow-lg shadow-soft-primary/30"
+              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors disabled:opacity-70 shadow-sm"
             >
               {status === 'loading' ? 'Sending...' : 'Send Message'}
             </button>
