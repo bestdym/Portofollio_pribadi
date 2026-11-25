@@ -64,24 +64,24 @@ export default function HeroSection({ profile }: { profile: any }) {
       onMouseMove={handleMouseMove}
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24 pb-16"
     >
-      {/* Layer 1 & 2: Multi-Plane Parallax Backdrop */}
+      {/* Layer 1 & 2: Multi-Plane Monochrome Parallax Backdrop */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
         {/* Far background editorial watermark */}
         <motion.div
           style={{ y: bgWatermarkY, scale: bgWatermarkScale }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[7rem] sm:text-[11rem] md:text-[15rem] font-black tracking-[0.16em] text-[#1C1917]/[0.028] uppercase will-change-transform"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[7rem] sm:text-[11rem] md:text-[15rem] font-black tracking-[0.16em] text-neutral-950/[0.03] uppercase will-change-transform"
         >
           PORTFOLIO
         </motion.div>
 
-        {/* Warm Cream/Brown Orbs with opposing scroll parallax */}
+        {/* Soft Gray Ambient Orbs with opposing scroll parallax */}
         <motion.div
           style={{ x: orbLeftX, y: orbLeftY }}
-          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-[#D6C7B2]/40 blur-3xl will-change-transform"
+          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-neutral-200/55 blur-3xl will-change-transform"
         />
         <motion.div
           style={{ x: orbRightX, y: orbRightY }}
-          className="absolute bottom-6 -right-24 w-[28rem] h-[28rem] rounded-full bg-[#8C6239]/12 blur-3xl will-change-transform"
+          className="absolute bottom-6 -right-24 w-[28rem] h-[28rem] rounded-full bg-neutral-300/35 blur-3xl will-change-transform"
         />
 
         {/* Rotating concentric architectural rings */}
@@ -91,10 +91,10 @@ export default function HeroSection({ profile }: { profile: any }) {
             rotate: ringRotate,
             x: smoothPointerX,
           }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[34rem] h-[34rem] md:w-[42rem] md:h-[42rem] rounded-full border border-[#E7E1D8]/80 will-change-transform"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[34rem] h-[34rem] md:w-[42rem] md:h-[42rem] rounded-full border border-neutral-200/80 will-change-transform"
         >
-          <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-[#8C6239]/40" />
-          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-[#1C1917]/25" />
+          <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-neutral-400/70" />
+          <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2.5 h-2.5 rounded-full bg-neutral-900/35" />
         </motion.div>
 
         <motion.div
@@ -102,7 +102,7 @@ export default function HeroSection({ profile }: { profile: any }) {
             y: smoothPointerY,
             x: smoothPointerX,
           }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] md:w-[28rem] md:h-[28rem] rounded-full border border-dashed border-[#8C6239]/15 will-change-transform"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] md:w-[28rem] md:h-[28rem] rounded-full border border-dashed border-neutral-300/70 will-change-transform"
         />
       </div>
 
@@ -133,20 +133,20 @@ export default function HeroSection({ profile }: { profile: any }) {
                   transition={{ type: 'spring', stiffness: 260, damping: 18 }}
                   src={profile.avatar_url}
                   alt={profile.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-6 border-4 border-[#FFFDF9] shadow-[0_12px_30px_rgba(28,25,23,0.1)] object-cover bg-[#FFFDF9]"
+                  className="w-24 h-24 rounded-full mx-auto mb-6 border-4 border-neutral-100 shadow-[0_12px_30px_rgba(0,0,0,0.08)] object-cover bg-neutral-50"
                 />
               ) : (
                 <motion.div
                   whileHover={{ scale: 1.06, rotateZ: -3 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                  className="w-24 h-24 rounded-full mx-auto mb-6 bg-[#EAE4DC] text-[#8C6239] flex items-center justify-center text-4xl shadow-[0_12px_30px_rgba(28,25,23,0.08)] border-4 border-[#FFFDF9]"
+                  className="w-24 h-24 rounded-full mx-auto mb-6 bg-neutral-100 text-neutral-900 flex items-center justify-center text-4xl shadow-[0_12px_30px_rgba(0,0,0,0.06)] border-4 border-white"
                 >
                   👋
                 </motion.div>
               )}
 
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FFFDF9] border border-[#E7E1D8] text-xs font-semibold text-[#8C6239] uppercase tracking-[0.18em] mb-5 shadow-2xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8C6239]" />
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-50 border border-neutral-200 text-xs font-semibold text-neutral-600 uppercase tracking-[0.18em] mb-5">
+                <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
                 Hello, I am {profile?.name || 'A Developer'}
               </div>
             </motion.div>
@@ -154,15 +154,17 @@ export default function HeroSection({ profile }: { profile: any }) {
             {/* Headline layer */}
             <motion.h1
               style={{ y: headingY }}
-              className="text-4xl sm:text-5xl md:text-7xl font-bold text-[#1C1917] tracking-tight mb-6 leading-[1.08]"
+              className="text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-950 tracking-tight mb-6 leading-[1.08]"
             >
-              Building <span className="text-[#8C6239]">Digital</span> Experiences.
+              Building{' '}
+              <span className="text-neutral-500">Digital</span>{' '}
+              Experiences.
             </motion.h1>
 
             {/* Bio layer */}
             <motion.p
               style={{ y: bioY }}
-              className="text-base sm:text-lg md:text-xl text-[#57534E] max-w-2xl mx-auto mb-10 leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto mb-10 leading-relaxed"
             >
               {profile?.bio ||
                 'I am a frontend engineer passionate about crafting fluid UI experiences and clean modern interfaces.'}
@@ -179,7 +181,7 @@ export default function HeroSection({ profile }: { profile: any }) {
                 onClick={() =>
                   document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })
                 }
-                className="px-8 py-4 bg-[#1C1917] text-[#FFFDF9] rounded-full font-medium hover:bg-[#8C6239] transition-colors duration-300 shadow-[0_14px_30px_rgba(28,25,23,0.16)] cursor-pointer"
+                className="px-8 py-4 bg-neutral-950 text-white rounded-full font-medium hover:bg-neutral-800 transition-colors duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.14)] cursor-pointer"
               >
                 Explore My Universe
               </motion.button>
@@ -189,7 +191,7 @@ export default function HeroSection({ profile }: { profile: any }) {
                 onClick={() =>
                   document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
                 }
-                className="px-7 py-4 bg-[#FFFDF9] text-[#1C1917] border border-[#D6C7B2] rounded-full font-medium hover:border-[#8C6239] hover:text-[#8C6239] transition-colors duration-300 cursor-pointer"
+                className="px-7 py-4 bg-neutral-50 text-neutral-900 border border-neutral-300 rounded-full font-medium hover:border-neutral-900 hover:bg-neutral-100 transition-colors duration-300 cursor-pointer"
               >
                 View Projects
               </motion.button>
@@ -209,7 +211,7 @@ export default function HeroSection({ profile }: { profile: any }) {
           opacity: { delay: 1, duration: 0.6 },
           y: { duration: 2.2, repeat: Infinity, ease: 'easeInOut' },
         }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-[#78716C] hover:text-[#1C1917] transition-colors flex flex-col items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] cursor-pointer z-10"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 text-neutral-400 hover:text-neutral-900 transition-colors flex flex-col items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] cursor-pointer z-10"
         aria-label="Scroll ke bawah"
       >
         <span>Scroll</span>

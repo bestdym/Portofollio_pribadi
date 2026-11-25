@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, isPlaceholder } from '../lib/supabase';
-import type { ProjectItem, BlogPostItem, ProfileItem, ContactMessageItem, AdminTab, ToastMessage } from '../types/admin';
+import type { ProjectItem, BlogPostItem, BlogCommentItem, ProfileItem, ContactMessageItem, AdminTab, ToastMessage } from '../types/admin';
 import { AdminSidebar } from '../components/admin/AdminSidebar';
 import { AdminHeader } from '../components/admin/AdminHeader';
 import { DashboardOverview } from '../components/admin/DashboardOverview';
 import { BlogsManager } from '../components/admin/BlogsManager';
 import { BlogModal } from '../components/admin/BlogModal';
+import { BlogCommentsManager } from '../components/admin/BlogCommentsManager';
 import { ProjectsManager } from '../components/admin/ProjectsManager';
 import { ProjectModal } from '../components/admin/ProjectModal';
 import { MessagesManager } from '../components/admin/MessagesManager';
@@ -22,6 +23,8 @@ export default function Admin() {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [blogs, setBlogs] = useState<BlogPostItem[]>([]);
   const [isBlogsReady, setIsBlogsReady] = useState(false);
+  const [blogComments, setBlogComments] = useState<BlogCommentItem[]>([]);
+  const [isCommentsReady, setIsCommentsReady] = useState(false);
   const [profile, setProfile] = useState<ProfileItem | null>(null);
   const [messages, setMessages] = useState<ContactMessageItem[]>([]);
   const [isMessagesReady, setIsMessagesReady] = useState(false);
@@ -110,6 +113,23 @@ export default function Admin() {
         }
       } catch {
         setIsBlogsReady(false);
+      }
+
+      // 5. Fetch blog comments / Q&A (if table exists)
+      try {
+        const { data: commentData, error: commentError } = await supabase
+          .from('blog_comments')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!commentError && commentData) {
+          setBlogComments(commentData as BlogCommentItem[]);
+          setIsCommentsReady(true);
+        } else {
+          setIsCommentsReady(false);
+        }
+      } catch {
+        setIsCommentsReady(false);
       }
     } catch (err) {
       console.error('Fetch error:', err);
@@ -273,6 +293,45 @@ export default function Admin() {
     }
   };
 
+  // Handlers for Blog Comments / Q&A
+  const handleReplyBlogComment = async (
+    blogId: string,
+    parentId: string,
+    replyContent: string
+  ) => {
+    const { error } = await supabase.from('blog_comments').insert([
+      {
+        blog_id: blogId,
+        parent_id: parentId,
+        author_name: profile?.name || 'Penulis',
+        content: replyContent,
+        is_admin: true,
+      },
+    ]);
+
+    if (error) {
+      addToast('error', 'Gagal Mengirim Balasan', error.message);
+      throw error;
+    }
+
+    addToast('success', 'Balasan Terkirim', 'Jawaban Anda langsung tampil di halaman blog.');
+    fetchData(true);
+  };
+
+  const handleDeleteBlogComment = async (id: string) => {
+    if (!window.confirm('Yakin ingin menghapus komentar/pertanyaan ini?')) return;
+
+    setBlogComments((prev) => prev.filter((c) => c.id !== id && c.parent_id !== id));
+
+    const { error } = await supabase.from('blog_comments').delete().eq('id', id);
+    if (error) {
+      addToast('error', 'Gagal Menghapus Komentar', error.message);
+      fetchData(true);
+    } else {
+      addToast('info', 'Komentar Dihapus', 'Diskusi telah dihapus.');
+    }
+  };
+
   // Handlers for Profile
   const handleSaveProfile = async (profileData: Partial<ProfileItem>) => {
     if (profile?.id) {
@@ -321,6 +380,7 @@ export default function Admin() {
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
         blogCount={blogs.length}
+        commentCount={blogComments.filter((c) => !c.parent_id).length}
         projectCount={projects.length}
         messageCount={messages.length}
         profile={profile}
@@ -375,6 +435,17 @@ export default function Admin() {
                 />
               )}
 
+              {currentTab === 'comments' && (
+                <BlogCommentsManager
+                  comments={blogComments}
+                  blogs={blogs}
+                  isTableReady={isCommentsReady}
+                  onReplyComment={handleReplyBlogComment}
+                  onDeleteComment={handleDeleteBlogComment}
+                  onNavigateToDatabase={() => setCurrentTab('database')}
+                />
+              )}
+
               {currentTab === 'projects' && (
                 <ProjectsManager
                   projects={projects}
@@ -407,6 +478,8 @@ export default function Admin() {
                   isPlaceholder={isPlaceholder}
                   blogCount={blogs.length}
                   isBlogsReady={isBlogsReady}
+                  commentCount={blogComments.length}
+                  isCommentsReady={isCommentsReady}
                   projectCount={projects.length}
                   messageCount={messages.length}
                   isMessagesReady={isMessagesReady}

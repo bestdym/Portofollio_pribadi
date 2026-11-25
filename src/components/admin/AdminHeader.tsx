@@ -20,6 +20,10 @@ const tabTitles: Record<AdminTab, { title: string; subtitle: string }> = {
     title: 'Manajemen Blog',
     subtitle: 'Tulis dan kelola pengalaman, cerita, atau tanya jawab beserta galeri foto',
   },
+  comments: {
+    title: 'Diskusi & Tanya Jawab Blog',
+    subtitle: 'Balas pertanyaan dan komentar pengunjung secara langsung sebagai Penulis',
+  },
   projects: {
     title: 'Manajemen Project',
     subtitle: 'Kelola seluruh daftar proyek, thumbnail, tag, dan link demo Anda',

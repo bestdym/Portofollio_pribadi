@@ -46,6 +46,16 @@ export interface BlogPostItem {
   updated_at?: string;
 }
 
+export interface BlogCommentItem {
+  id: string;
+  blog_id: string;
+  parent_id?: string | null;
+  author_name: string;
+  content: string;
+  is_admin: boolean;
+  created_at: string;
+}
+
 export interface ContactMessageItem {
   id: string;
   name: string;
@@ -54,7 +64,7 @@ export interface ContactMessageItem {
   created_at: string;
 }
 
-export type AdminTab = 'dashboard' | 'blogs' | 'projects' | 'messages' | 'profile' | 'database';
+export type AdminTab = 'dashboard' | 'blogs' | 'comments' | 'projects' | 'messages' | 'profile' | 'database';
 
 export interface ToastMessage {
   id: string;

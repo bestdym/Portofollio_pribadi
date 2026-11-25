@@ -78,10 +78,8 @@ Setelah masuk tahap production, monitoring error dan kecepatan loading menjadi p
 Dengan pencahayaan hangat, playlist instrumental pelan, dan catatan kecil di samping laptop, fokus biasanya jauh lebih mudah terjaga. Bukan soal begadang, melainkan memberi ruang tenang untuk berpikir jernih tanpa banyak distraksi.
 
 Setup meja kerja pun saya buat sesimpel mungkin—hanya barang yang benar-benar dipakai setiap hari supaya pikiran ikut terasa lega.`,
-    cover_image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=1000',
-    gallery_images: [
-      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=900'
-    ],
+    cover_image: null,
+    gallery_images: [],
     published: true,
     created_at: new Date(Date.now() - 6 * 86400000).toISOString(),
   },

@@ -1,21 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  /* Warm Editorial Palette: Hitam, Abu Tua, Abu Muda, Coklat, Cream, Putih */
-  --color-soft-bg: #F6F3EE;
-  --color-soft-surface: rgba(255, 253, 249, 0.85);
-  --color-soft-primary: #8C6239;
-  --color-soft-accent: #D6C7B2;
-  --color-soft-text: #1C1917;
-
-  --color-warm-black: #1C1917;
-  --color-warm-charcoal: #292524;
-  --color-warm-gray-dark: #57534E;
-  --color-warm-gray-light: #E7E1D8;
-  --color-warm-brown: #8C6239;
-  --color-warm-brown-light: #A9825A;
-  --color-warm-cream: #F6F3EE;
-  --color-warm-white: #FFFDF9;
+  /* Monochrome Minimalist Palette: Putih, Abu-abu Bertingkat, & Hitam */
+  --color-soft-bg: #FFFFFF;
+  --color-soft-surface: rgba(250, 250, 250, 0.88);
+  --color-soft-primary: #171717;
+  --color-soft-accent: #E5E5E5;
+  --color-soft-text: #0A0A0A;
 }
 
 @layer base {
@@ -35,8 +26,8 @@
 @utility clay-card {
   background-color: var(--color-soft-surface);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(214, 199, 178, 0.45);
-  box-shadow: 0 12px 32px -12px rgba(28, 25, 23, 0.08);
+  border: 1px solid rgba(229, 229, 229, 0.8);
+  box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.06);
   border-radius: 1rem;
 }
 

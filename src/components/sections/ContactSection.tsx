@@ -37,27 +37,27 @@ export default function ContactSection() {
 
       <div className="relative z-10 max-w-3xl mx-auto px-6">
         <ScrollReveal variant="scale" className="text-center mb-12">
-          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8C6239] mb-2">
+          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
             Get In Touch
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1C1917] mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
             Let&apos;s Connect
           </h2>
-          <p className="text-[#57534E] text-sm md:text-base">
+          <p className="text-neutral-500 text-sm md:text-base">
             Have a project in mind or just want to say hi? Drop a message below.
           </p>
         </ScrollReveal>
 
         {/* Scroll-linked Scale (Kecil -> Besar) + Subtle 3D Pitch */}
         <ScrollZoomSection>
-          <div className="bg-[#FFFDF9] border border-[#E7E1D8] shadow-[0_18px_50px_rgba(28,25,23,0.07)] rounded-3xl p-8 md:p-12">
+          <div className="bg-neutral-50/80 border border-neutral-200 shadow-[0_18px_50px_rgba(0,0,0,0.06)] rounded-3xl p-8 md:p-12">
             {status === 'success' && (
-              <div className="mb-6 p-4 bg-[#F6F3EE] border border-[#D6C7B2] text-[#1C1917] rounded-xl text-center font-medium text-sm">
+              <div className="mb-6 p-4 bg-white border border-neutral-300 text-neutral-900 rounded-xl text-center font-medium text-sm">
                 Message sent successfully! I&apos;ll get back to you soon.
               </div>
             )}
             {status === 'error' && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-center font-medium text-sm">
+              <div className="mb-6 p-4 bg-neutral-100 border border-neutral-300 text-neutral-800 rounded-xl text-center font-medium text-sm">
                 {errorMessage}
               </div>
             )}
@@ -65,7 +65,7 @@ export default function ContactSection() {
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label htmlFor="name" className="text-sm font-medium text-[#292524]">
+                  <label htmlFor="name" className="text-sm font-medium text-neutral-800">
                     Name
                   </label>
                   <input
@@ -76,12 +76,12 @@ export default function ContactSection() {
                     onChange={handleChange}
                     required
                     disabled={status === 'loading'}
-                    className="w-full px-4 py-3 rounded-xl border border-[#E7E1D8] bg-[#F6F3EE]/60 text-[#1C1917] placeholder:text-[#A8A29E] focus:bg-[#FFFDF9] focus:outline-none focus:ring-2 focus:ring-[#8C6239]/25 focus:border-[#8C6239] transition-all text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-white text-neutral-950 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/15 focus:border-neutral-900 transition-all text-sm"
                     placeholder="John Doe"
                   />
                 </div>
                 <div className="space-y-2">
-                  <label htmlFor="email" className="text-sm font-medium text-[#292524]">
+                  <label htmlFor="email" className="text-sm font-medium text-neutral-800">
                     Email
                   </label>
                   <input
@@ -92,14 +92,14 @@ export default function ContactSection() {
                     onChange={handleChange}
                     required
                     disabled={status === 'loading'}
-                    className="w-full px-4 py-3 rounded-xl border border-[#E7E1D8] bg-[#F6F3EE]/60 text-[#1C1917] placeholder:text-[#A8A29E] focus:bg-[#FFFDF9] focus:outline-none focus:ring-2 focus:ring-[#8C6239]/25 focus:border-[#8C6239] transition-all text-sm"
+                    className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-white text-neutral-950 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/15 focus:border-neutral-900 transition-all text-sm"
                     placeholder="john@example.com"
                   />
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-medium text-[#292524]">
+                <label htmlFor="message" className="text-sm font-medium text-neutral-800">
                   Message
                 </label>
                 <textarea
@@ -110,7 +110,7 @@ export default function ContactSection() {
                   required
                   disabled={status === 'loading'}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-xl border border-[#E7E1D8] bg-[#F6F3EE]/60 text-[#1C1917] placeholder:text-[#A8A29E] focus:bg-[#FFFDF9] focus:outline-none focus:ring-2 focus:ring-[#8C6239]/25 focus:border-[#8C6239] transition-all resize-none text-sm"
+                  className="w-full px-4 py-3 rounded-xl border border-neutral-200 bg-white text-neutral-950 placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-neutral-900/15 focus:border-neutral-900 transition-all resize-none text-sm"
                   placeholder="Your message here..."
                 ></textarea>
               </div>
@@ -118,7 +118,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 disabled={status === 'loading'}
-                className="w-full py-4 bg-[#1C1917] hover:bg-[#8C6239] text-[#FFFDF9] rounded-xl font-semibold tracking-wide transition-all duration-300 disabled:opacity-70 shadow-[0_10px_24px_rgba(28,25,23,0.14)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+                className="w-full py-4 bg-neutral-950 hover:bg-neutral-800 text-white rounded-xl font-semibold tracking-wide transition-all duration-300 disabled:opacity-70 shadow-[0_10px_24px_rgba(0,0,0,0.14)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
               >
                 {status === 'loading' ? 'Sending...' : 'Send Message'}
               </button>

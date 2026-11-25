@@ -21,7 +21,7 @@ export function ScrollProgressBar() {
   return (
     <motion.div
       style={{ scaleX }}
-      className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-[#1C1917] via-[#8C6239] to-[#C2A382] origin-left z-[60] pointer-events-none"
+      className="fixed top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-neutral-950 via-neutral-600 to-neutral-300 origin-left z-[60] pointer-events-none"
     />
   );
 }
@@ -315,17 +315,17 @@ export function ParallaxSectionBackdrop({
       {/* Slow-drifting editorial watermark */}
       <motion.div
         style={{ x: textX, y: textY }}
-        className="absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-[6.5rem] sm:text-[9rem] md:text-[12rem] font-black tracking-[0.18em] text-[#1C1917]/[0.03] uppercase will-change-transform"
+        className="absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-[6.5rem] sm:text-[9rem] md:text-[12rem] font-black tracking-[0.18em] text-neutral-950/[0.03] uppercase will-change-transform"
       >
         {label}
       </motion.div>
 
-      {/* Soft warm parallax orb */}
+      {/* Soft neutral parallax orb */}
       <motion.div
         style={{ y: orbY }}
         className={`absolute top-1/3 ${
           direction === 'left' ? '-right-24' : '-left-24'
-        } w-72 h-72 rounded-full bg-[#D6C7B2]/25 blur-3xl will-change-transform`}
+        } w-72 h-72 rounded-full bg-neutral-200/50 blur-3xl will-change-transform`}
       />
 
       {/* Subtle architectural rotating ring */}
@@ -333,7 +333,7 @@ export function ParallaxSectionBackdrop({
         style={{ y: textY, rotate: ringRotate }}
         className={`absolute bottom-12 ${
           direction === 'left' ? 'left-8' : 'right-8'
-        } w-44 h-44 rounded-full border border-dashed border-[#8C6239]/15 hidden md:block will-change-transform`}
+        } w-44 h-44 rounded-full border border-dashed border-neutral-300/80 hidden md:block will-change-transform`}
       />
     </div>
   );
@@ -403,7 +403,7 @@ export function Tilt3DCard({
         className={`relative h-full will-change-transform ${className}`}
       >
         {children}
-        {/* Subtle warm light reflection overlay on hover */}
+        {/* Subtle neutral light reflection overlay on hover */}
         <div
           aria-hidden="true"
           className={`pointer-events-none absolute inset-0 rounded-[inherit] transition-opacity duration-300 ${
@@ -411,7 +411,7 @@ export function Tilt3DCard({
           }`}
           style={{
             background:
-              'linear-gradient(135deg, rgba(255,253,249,0.28) 0%, rgba(140,98,57,0.04) 55%, rgba(28,25,23,0.04) 100%)',
+              'linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(163,163,163,0.06) 55%, rgba(0,0,0,0.04) 100%)',
           }}
         />
       </motion.div>

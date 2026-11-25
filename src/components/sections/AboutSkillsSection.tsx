@@ -33,10 +33,10 @@ export default function AboutSkillsSection() {
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center w-full">
         {/* Heading: Kecil -> Besar */}
         <ScrollReveal variant="scale" className="mb-14">
-          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8C6239] mb-2">
+          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
             Tools & Craft
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-[#1C1917] tracking-tight">
+          <h2 className="text-3xl md:text-5xl font-bold text-neutral-950 tracking-tight">
             Tech Stack
           </h2>
         </ScrollReveal>
@@ -50,14 +50,14 @@ export default function AboutSkillsSection() {
                   <motion.div
                     whileHover={{ y: -6, scale: 1.05, rotateY: 8 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[#FFFDF9] border border-[#E7E1D8] hover:border-[#8C6239]/50 shadow-[0_6px_20px_rgba(28,25,23,0.04)] hover:shadow-[0_12px_28px_rgba(140,98,57,0.12)] transition-colors duration-300 cursor-pointer"
+                    className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-neutral-50 hover:bg-white border border-neutral-200 hover:border-neutral-400 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer"
                   >
                     <img
                       src={skill.icon}
                       alt={skill.name}
                       className="w-8 h-8 md:w-9 md:h-9 object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                     />
-                    <span className="text-[#57534E] group-hover:text-[#1C1917] text-xs md:text-sm font-semibold transition-colors whitespace-nowrap">
+                    <span className="text-neutral-600 group-hover:text-neutral-950 text-xs md:text-sm font-semibold transition-colors whitespace-nowrap">
                       {skill.name}
                     </span>
                   </motion.div>
@@ -74,14 +74,14 @@ export default function AboutSkillsSection() {
                   <motion.div
                     whileHover={{ y: -6, scale: 1.05, rotateY: -8 }}
                     transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-[#FFFDF9] border border-[#E7E1D8] hover:border-[#8C6239]/50 shadow-[0_6px_20px_rgba(28,25,23,0.04)] hover:shadow-[0_12px_28px_rgba(140,98,57,0.12)] transition-colors duration-300 cursor-pointer"
+                    className="group relative flex items-center gap-3 px-5 py-3.5 rounded-2xl bg-neutral-50 hover:bg-white border border-neutral-200 hover:border-neutral-400 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_12px_28px_rgba(0,0,0,0.08)] transition-all duration-300 cursor-pointer"
                   >
                     <img
                       src={skill.icon}
                       alt={skill.name}
                       className="w-8 h-8 md:w-9 md:h-9 object-contain grayscale opacity-75 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                     />
-                    <span className="text-[#57534E] group-hover:text-[#1C1917] text-xs md:text-sm font-semibold transition-colors whitespace-nowrap">
+                    <span className="text-neutral-600 group-hover:text-neutral-950 text-xs md:text-sm font-semibold transition-colors whitespace-nowrap">
                       {skill.name}
                     </span>
                   </motion.div>

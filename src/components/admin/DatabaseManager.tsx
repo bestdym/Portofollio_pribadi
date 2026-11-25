@@ -6,6 +6,8 @@ interface DatabaseManagerProps {
   isPlaceholder: boolean;
   blogCount: number;
   isBlogsReady: boolean;
+  commentCount: number;
+  isCommentsReady: boolean;
   projectCount: number;
   messageCount: number;
   isMessagesReady: boolean;
@@ -17,6 +19,8 @@ export const DatabaseManager: React.FC<DatabaseManagerProps> = ({
   isPlaceholder,
   blogCount,
   isBlogsReady,
+  commentCount,
+  isCommentsReady,
   projectCount,
   messageCount,
   isMessagesReady,
@@ -80,6 +84,17 @@ CREATE TABLE IF NOT EXISTS public.blogs (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- 5. Tabel Diskusi / Tanya Jawab Blog (blog_comments)
+CREATE TABLE IF NOT EXISTS public.blog_comments (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  blog_id UUID NOT NULL REFERENCES public.blogs(id) ON DELETE CASCADE,
+  parent_id UUID REFERENCES public.blog_comments(id) ON DELETE CASCADE,
+  author_name TEXT NOT NULL,
+  content TEXT NOT NULL,
+  is_admin BOOLEAN NOT NULL DEFAULT false,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- ==========================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ==========================================
@@ -88,6 +103,7 @@ ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.blog_comments ENABLE ROW LEVEL SECURITY;
 
 -- Publik bisa melihat profil & proyek
 CREATE POLICY "Public profiles read" ON public.profiles FOR SELECT USING (true);
@@ -98,7 +114,12 @@ CREATE POLICY "Public projects all" ON public.projects FOR ALL USING (true);
 
 -- Publik bisa membaca blog & admin bisa kelola
 CREATE POLICY "Public blogs read" ON public.blogs FOR SELECT USING (true);
-CREATE POLICY "Public blogs all" ON public.blogs FOR ALL USING (true);
+CREATE POLICY "Public blogs all" ON public.blogs FOR ALL USING (true) WITH CHECK (true);
+
+-- Publik bisa baca & kirim tanya jawab di blog, admin bisa balas/hapus
+CREATE POLICY "Public blog comments read" ON public.blog_comments FOR SELECT USING (true);
+CREATE POLICY "Public blog comments insert" ON public.blog_comments FOR INSERT WITH CHECK (true);
+CREATE POLICY "Public blog comments delete" ON public.blog_comments FOR DELETE USING (true);
 
 -- Publik bisa kirim pesan kontak, dan admin bisa baca/kelola
 CREATE POLICY "Public messages insert" ON public.messages FOR INSERT WITH CHECK (true);
@@ -174,6 +195,20 @@ CREATE POLICY "Public messages delete" ON public.messages FOR DELETE USING (true
                 </p>
               </div>
               {isBlogsReady ? (
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-amber-500" />
+              )}
+            </div>
+
+            <div className="p-4 rounded-xl border border-slate-200 flex items-center justify-between bg-white">
+              <div>
+                <p className="font-mono text-xs font-semibold text-slate-800">blog_comments</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  {isCommentsReady ? `${commentCount} diskusi` : 'Belum dibuat'}
+                </p>
+              </div>
+              {isCommentsReady ? (
                 <CheckCircle2 className="w-5 h-5 text-emerald-500" />
               ) : (
                 <AlertCircle className="w-5 h-5 text-amber-500" />

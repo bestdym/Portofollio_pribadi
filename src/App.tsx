@@ -14,14 +14,14 @@ function Home() {
   const { profile, projects, blogs, loading, error } = usePortfolioData();
 
   return (
-    <div className="min-h-screen bg-soft-bg text-soft-text font-sans selection:bg-[#8C6239]/20 selection:text-[#1C1917] overflow-x-clip">
+    <div className="min-h-screen bg-white text-neutral-950 font-sans selection:bg-neutral-900 selection:text-white overflow-x-clip">
       <ScrollProgressBar />
       <Navbar />
 
       <main>
         {/* Error Boundary / Status sederhana */}
         {error && (
-          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-[#FFFDF9] text-[#8C6239] px-6 py-3 rounded-full shadow-lg border border-[#D6C7B2] text-sm">
+          <div className="fixed top-24 left-1/2 -translate-x-1/2 z-50 bg-neutral-50 text-neutral-800 px-6 py-3 rounded-full shadow-lg border border-neutral-200 text-sm">
             {error}
           </div>
         )}
@@ -38,17 +38,17 @@ function Home() {
       </main>
 
       {/* Footer sederhana & rapi */}
-      <footer className="py-10 text-center text-[#57534E] border-t border-[#E7E1D8]">
+      <footer className="py-10 text-center text-neutral-500 border-t border-neutral-200/80 bg-white">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
-          <p>
+          <p className="text-neutral-600">
             © {new Date().getFullYear()} {profile?.name || 'Developer'}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <p className="text-[#78716C]">Built with React & Supabase</p>
-            <span className="text-[#D6C7B2]">•</span>
+            <p className="text-neutral-400">Built with React & Supabase</p>
+            <span className="text-neutral-300">•</span>
             <Link
               to="/admin"
-              className="text-[#78716C] hover:text-[#8C6239] transition-colors font-medium"
+              className="text-neutral-500 hover:text-neutral-950 transition-colors font-medium"
             >
               Admin
             </Link>

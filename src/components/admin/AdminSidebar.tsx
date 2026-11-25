@@ -2,6 +2,7 @@ import React from 'react';
 import { 
   LayoutDashboard, 
   BookOpen,
+  MessageSquare,
   FolderKanban, 
   Mail, 
   User, 
@@ -19,6 +20,7 @@ interface AdminSidebarProps {
   isOpen: boolean;
   onClose: () => void;
   blogCount: number;
+  commentCount: number;
   projectCount: number;
   messageCount: number;
   profile: ProfileItem | null;
@@ -31,6 +33,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   isOpen,
   onClose,
   blogCount,
+  commentCount,
   projectCount,
   messageCount,
   profile,
@@ -48,6 +51,12 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       label: 'Kelola Blog',
       icon: BookOpen,
       badge: blogCount > 0 ? blogCount : null,
+    },
+    {
+      id: 'comments' as AdminTab,
+      label: 'Diskusi Blog',
+      icon: MessageSquare,
+      badge: commentCount > 0 ? commentCount : null,
     },
     {
       id: 'projects' as AdminTab,

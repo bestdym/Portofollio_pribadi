@@ -284,7 +284,7 @@ export const BlogModal: React.FC<BlogModalProps> = ({
           <div>
             <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
               <ImageIcon className="w-3.5 h-3.5 text-slate-500" />
-              Foto Sampul (URL atau Upload)
+              Foto Sampul (Opsional — URL atau Upload)
             </label>
             <div className="flex gap-2 items-center">
               <input

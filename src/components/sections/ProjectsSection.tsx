@@ -24,13 +24,13 @@ export default function ProjectsSection({
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
         {/* Section Header: Kecil -> Besar */}
         <ScrollReveal variant="scale" className="text-center mb-16">
-          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8C6239] mb-2">
+          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
             Selected Works
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#1C1917] mb-4 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
             Featured Projects
           </h2>
-          <p className="text-[#57534E] max-w-lg mx-auto text-sm md:text-base">
+          <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
             Explore a selection of my recent work and personal projects.
           </p>
         </ScrollReveal>
@@ -59,9 +59,9 @@ export default function ProjectsSection({
                     className="h-full"
                   >
                     <Tilt3DCard className="rounded-2xl">
-                      <div className="h-full flex flex-col bg-[#FFFDF9] rounded-2xl overflow-hidden shadow-[0_8px_28px_rgba(28,25,23,0.05)] hover:shadow-[0_18px_40px_rgba(28,25,23,0.1)] transition-shadow duration-300 border border-[#E7E1D8] group">
+                      <div className="h-full flex flex-col bg-neutral-50/70 hover:bg-white rounded-2xl overflow-hidden shadow-[0_6px_24px_rgba(0,0,0,0.04)] hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] transition-all duration-300 border border-neutral-200/90 hover:border-neutral-300 group">
                         {/* Thumbnail with Parallax Image */}
-                        <div className="relative h-52 w-full bg-[#EAE4DC] overflow-hidden flex items-center justify-center">
+                        <div className="relative h-52 w-full bg-neutral-100 overflow-hidden flex items-center justify-center">
                           {project.thumbnail_url ? (
                             <ParallaxImage
                               src={project.thumbnail_url}
@@ -69,9 +69,9 @@ export default function ProjectsSection({
                               strength={12}
                             />
                           ) : (
-                            <div className="text-[#78716C] text-sm font-medium flex flex-col items-center gap-1">
-                              <Code className="w-6 h-6 text-[#A8A29E]" />
-                              <span className="text-xs font-mono text-[#78716C]">
+                            <div className="text-neutral-400 text-sm font-medium flex flex-col items-center gap-1">
+                              <Code className="w-6 h-6 text-neutral-300" />
+                              <span className="text-xs font-mono text-neutral-400">
                                 Project Showcase
                               </span>
                             </div>
@@ -83,7 +83,7 @@ export default function ProjectsSection({
                               {project.tags.slice(0, 3).map((tag) => (
                                 <span
                                   key={tag}
-                                  className="text-xs font-medium px-2.5 py-1 bg-[#1C1917]/75 backdrop-blur-md text-[#FFFDF9] rounded-md"
+                                  className="text-xs font-medium px-2.5 py-1 bg-neutral-950/75 backdrop-blur-md text-white rounded-md"
                                 >
                                   {tag}
                                 </span>
@@ -93,20 +93,20 @@ export default function ProjectsSection({
                         </div>
 
                         <div className="p-6 flex flex-col flex-1">
-                          <h3 className="font-bold text-xl text-[#1C1917] mb-2 leading-tight group-hover:text-[#8C6239] transition-colors">
+                          <h3 className="font-bold text-xl text-neutral-950 mb-2 leading-tight group-hover:text-neutral-700 transition-colors">
                             {project.title}
                           </h3>
-                          <p className="text-sm text-[#57534E] line-clamp-3 mb-6 flex-1 leading-relaxed">
+                          <p className="text-sm text-neutral-600 line-clamp-3 mb-6 flex-1 leading-relaxed">
                             {project.description || 'Tidak ada deskripsi proyek.'}
                           </p>
 
-                          <div className="flex items-center gap-5 mt-auto pt-4 border-t border-[#EFEAE2]">
+                          <div className="flex items-center gap-5 mt-auto pt-4 border-t border-neutral-200/70">
                             {project.demo_url && (
                               <a
                                 href={project.demo_url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-1.5 text-sm font-semibold text-[#8C6239] hover:text-[#1C1917] transition-colors"
+                                className="flex items-center gap-1.5 text-sm font-semibold text-neutral-900 hover:text-neutral-600 transition-colors"
                               >
                                 <ExternalLink size={16} /> Live Demo
                               </a>
@@ -116,7 +116,7 @@ export default function ProjectsSection({
                                 href={project.github_url}
                                 target="_blank"
                                 rel="noreferrer"
-                                className="flex items-center gap-1.5 text-sm font-semibold text-[#57534E] hover:text-[#1C1917] transition-colors"
+                                className="flex items-center gap-1.5 text-sm font-semibold text-neutral-500 hover:text-neutral-950 transition-colors"
                               >
                                 <Code size={16} /> Repo
                               </a>
