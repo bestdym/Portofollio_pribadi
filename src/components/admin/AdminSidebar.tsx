@@ -1,6 +1,7 @@
 import React from 'react';
 import { 
   LayoutDashboard, 
+  BookOpen,
   FolderKanban, 
   Mail, 
   User, 
@@ -17,6 +18,7 @@ interface AdminSidebarProps {
   onSelectTab: (tab: AdminTab) => void;
   isOpen: boolean;
   onClose: () => void;
+  blogCount: number;
   projectCount: number;
   messageCount: number;
   profile: ProfileItem | null;
@@ -28,6 +30,7 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   onSelectTab,
   isOpen,
   onClose,
+  blogCount,
   projectCount,
   messageCount,
   profile,
@@ -39,6 +42,12 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       label: 'Ringkasan',
       icon: LayoutDashboard,
       badge: null,
+    },
+    {
+      id: 'blogs' as AdminTab,
+      label: 'Kelola Blog',
+      icon: BookOpen,
+      badge: blogCount > 0 ? blogCount : null,
     },
     {
       id: 'projects' as AdminTab,

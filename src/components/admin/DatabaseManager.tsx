@@ -4,6 +4,8 @@ import { Database, CheckCircle2, AlertCircle, Copy, Check, ExternalLink, Shield,
 interface DatabaseManagerProps {
   supabaseUrl: string;
   isPlaceholder: boolean;
+  blogCount: number;
+  isBlogsReady: boolean;
   projectCount: number;
   messageCount: number;
   isMessagesReady: boolean;
@@ -13,6 +15,8 @@ interface DatabaseManagerProps {
 export const DatabaseManager: React.FC<DatabaseManagerProps> = ({
   supabaseUrl,
   isPlaceholder,
+  blogCount,
+  isBlogsReady,
   projectCount,
   messageCount,
   isMessagesReady,
@@ -61,6 +65,21 @@ CREATE TABLE IF NOT EXISTS public.messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
+-- 4. Tabel Blog (blogs)
+CREATE TABLE IF NOT EXISTS public.blogs (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  title TEXT NOT NULL,
+  slug TEXT NOT NULL UNIQUE,
+  category TEXT NOT NULL DEFAULT 'Cerita',
+  excerpt TEXT,
+  content TEXT NOT NULL,
+  cover_image TEXT,
+  gallery_images TEXT[] DEFAULT '{}',
+  published BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- ==========================================
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ==========================================
@@ -68,6 +87,7 @@ CREATE TABLE IF NOT EXISTS public.messages (
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
 
 -- Publik bisa melihat profil & proyek
 CREATE POLICY "Public profiles read" ON public.profiles FOR SELECT USING (true);
@@ -75,6 +95,10 @@ CREATE POLICY "Public profiles all" ON public.profiles FOR ALL USING (true);
 
 CREATE POLICY "Public projects read" ON public.projects FOR SELECT USING (true);
 CREATE POLICY "Public projects all" ON public.projects FOR ALL USING (true);
+
+-- Publik bisa membaca blog & admin bisa kelola
+CREATE POLICY "Public blogs read" ON public.blogs FOR SELECT USING (true);
+CREATE POLICY "Public blogs all" ON public.blogs FOR ALL USING (true);
 
 -- Publik bisa kirim pesan kontak, dan admin bisa baca/kelola
 CREATE POLICY "Public messages insert" ON public.messages FOR INSERT WITH CHECK (true);
@@ -141,7 +165,21 @@ CREATE POLICY "Public messages delete" ON public.messages FOR DELETE USING (true
             Status Tabel Database
           </h4>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            <div className="p-4 rounded-xl border border-slate-200 flex items-center justify-between bg-white">
+              <div>
+                <p className="font-mono text-xs font-semibold text-slate-800">blogs</p>
+                <p className="text-[11px] text-slate-500 mt-0.5">
+                  {isBlogsReady ? `${blogCount} tulisan` : 'Belum dibuat'}
+                </p>
+              </div>
+              {isBlogsReady ? (
+                <CheckCircle2 className="w-5 h-5 text-emerald-500" />
+              ) : (
+                <AlertCircle className="w-5 h-5 text-amber-500" />
+              )}
+            </div>
+
             <div className="p-4 rounded-xl border border-slate-200 flex items-center justify-between bg-white">
               <div>
                 <p className="font-mono text-xs font-semibold text-slate-800">projects</p>

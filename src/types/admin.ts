@@ -30,6 +30,22 @@ export interface ProfileItem {
   updated_at?: string;
 }
 
+export type BlogCategory = 'Pengalaman' | 'Cerita' | 'Tanya Jawab';
+
+export interface BlogPostItem {
+  id: string;
+  title: string;
+  slug: string;
+  category: BlogCategory;
+  excerpt: string;
+  content: string;
+  cover_image?: string | null;
+  gallery_images?: string[] | null;
+  published: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface ContactMessageItem {
   id: string;
   name: string;
@@ -38,7 +54,7 @@ export interface ContactMessageItem {
   created_at: string;
 }
 
-export type AdminTab = 'dashboard' | 'projects' | 'messages' | 'profile' | 'database';
+export type AdminTab = 'dashboard' | 'blogs' | 'projects' | 'messages' | 'profile' | 'database';
 
 export interface ToastMessage {
   id: string;

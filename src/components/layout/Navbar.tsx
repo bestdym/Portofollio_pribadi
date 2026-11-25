@@ -20,7 +20,8 @@ export default function Navbar() {
         A<span className="text-blue-400">.</span>
       </div>
 
-      <div className="flex items-center gap-6 md:gap-8 text-sm font-medium text-slate-500">
+      <div className="flex items-center gap-5 md:gap-8 text-sm font-medium text-slate-500">
+        <button onClick={() => scrollTo('blog')} className="hover:text-blue-500 transition-colors">Blog</button>
         <button onClick={() => scrollTo('projects')} className="hover:text-blue-500 transition-colors">Projects</button>
         <button onClick={() => scrollTo('skills')} className="hover:text-blue-500 transition-colors">Skills</button>
         <button onClick={() => scrollTo('contact')} className="hover:text-blue-500 transition-colors">Contact</button>

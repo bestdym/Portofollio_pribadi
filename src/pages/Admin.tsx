@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, isPlaceholder } from '../lib/supabase';
-import type { ProjectItem, ProfileItem, ContactMessageItem, AdminTab, ToastMessage } from '../types/admin';
+import type { ProjectItem, BlogPostItem, ProfileItem, ContactMessageItem, AdminTab, ToastMessage } from '../types/admin';
 import { AdminSidebar } from '../components/admin/AdminSidebar';
 import { AdminHeader } from '../components/admin/AdminHeader';
 import { DashboardOverview } from '../components/admin/DashboardOverview';
+import { BlogsManager } from '../components/admin/BlogsManager';
+import { BlogModal } from '../components/admin/BlogModal';
 import { ProjectsManager } from '../components/admin/ProjectsManager';
 import { ProjectModal } from '../components/admin/ProjectModal';
 import { MessagesManager } from '../components/admin/MessagesManager';
@@ -18,6 +20,8 @@ export default function Admin() {
   
   // Data states
   const [projects, setProjects] = useState<ProjectItem[]>([]);
+  const [blogs, setBlogs] = useState<BlogPostItem[]>([]);
+  const [isBlogsReady, setIsBlogsReady] = useState(false);
   const [profile, setProfile] = useState<ProfileItem | null>(null);
   const [messages, setMessages] = useState<ContactMessageItem[]>([]);
   const [isMessagesReady, setIsMessagesReady] = useState(false);
@@ -27,6 +31,8 @@ export default function Admin() {
   // Modals & Toasts
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [projectToEdit, setProjectToEdit] = useState<ProjectItem | null>(null);
+  const [isBlogModalOpen, setIsBlogModalOpen] = useState(false);
+  const [blogToEdit, setBlogToEdit] = useState<BlogPostItem | null>(null);
   const [toasts, setToasts] = useState<ToastMessage[]>([]);
 
   const addToast = (type: 'success' | 'error' | 'info', title: string, message?: string) => {
@@ -87,6 +93,23 @@ export default function Admin() {
         }
       } catch {
         setIsMessagesReady(false);
+      }
+
+      // 4. Fetch blogs (if table exists)
+      try {
+        const { data: blogData, error: blogError } = await supabase
+          .from('blogs')
+          .select('*')
+          .order('created_at', { ascending: false });
+
+        if (!blogError && blogData) {
+          setBlogs(blogData as BlogPostItem[]);
+          setIsBlogsReady(true);
+        } else {
+          setIsBlogsReady(false);
+        }
+      } catch {
+        setIsBlogsReady(false);
       }
     } catch (err) {
       console.error('Fetch error:', err);
@@ -177,6 +200,79 @@ export default function Admin() {
     }
   };
 
+  // Handlers for Blogs
+  const handleOpenAddBlogModal = () => {
+    setBlogToEdit(null);
+    setIsBlogModalOpen(true);
+  };
+
+  const handleOpenEditBlogModal = (post: BlogPostItem) => {
+    setBlogToEdit(post);
+    setIsBlogModalOpen(true);
+  };
+
+  const handleSaveBlog = async (blogData: Partial<BlogPostItem>) => {
+    if (blogToEdit) {
+      const { error } = await supabase
+        .from('blogs')
+        .update({
+          ...blogData,
+          updated_at: new Date().toISOString(),
+        })
+        .eq('id', blogToEdit.id);
+
+      if (error) throw error;
+      addToast('success', 'Blog Berhasil Diperbarui', `Tulisan "${blogData.title}" telah disimpan.`);
+    } else {
+      const { error } = await supabase
+        .from('blogs')
+        .insert([blogData]);
+
+      if (error) throw error;
+      addToast('success', 'Blog Baru Ditambahkan', `Tulisan "${blogData.title}" berhasil dibuat.`);
+    }
+
+    fetchData(true);
+  };
+
+  const handleDeleteBlog = async (id: string, title: string) => {
+    if (!window.confirm(`Yakin ingin menghapus tulisan "${title}"?`)) return;
+
+    setBlogs((prev) => prev.filter((b) => b.id !== id));
+
+    const { error } = await supabase.from('blogs').delete().eq('id', id);
+    if (error) {
+      addToast('error', 'Gagal Menghapus Blog', error.message);
+      fetchData(true);
+    } else {
+      addToast('info', 'Blog Dihapus', `Tulisan "${title}" telah dihapus.`);
+    }
+  };
+
+  const handleToggleBlogPublished = async (post: BlogPostItem) => {
+    const nextPublished = !post.published;
+
+    setBlogs((prev) =>
+      prev.map((b) => (b.id === post.id ? { ...b, published: nextPublished } : b))
+    );
+
+    const { error } = await supabase
+      .from('blogs')
+      .update({ published: nextPublished, updated_at: new Date().toISOString() })
+      .eq('id', post.id);
+
+    if (error) {
+      addToast('error', 'Gagal Memperbarui Status Blog', error.message);
+      fetchData(true);
+    } else {
+      addToast(
+        'success',
+        nextPublished ? 'Tulisan Dipublikasikan' : 'Disimpan sebagai Draft',
+        `Status "${post.title}" telah diperbarui.`
+      );
+    }
+  };
+
   // Handlers for Profile
   const handleSaveProfile = async (profileData: Partial<ProfileItem>) => {
     if (profile?.id) {
@@ -224,6 +320,7 @@ export default function Admin() {
         onSelectTab={(tab) => setCurrentTab(tab)}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        blogCount={blogs.length}
         projectCount={projects.length}
         messageCount={messages.length}
         profile={profile}
@@ -239,6 +336,7 @@ export default function Admin() {
           onRefresh={() => fetchData(true)}
           isRefreshing={isRefreshing}
           onOpenAddProjectModal={handleOpenAddModal}
+          onOpenAddBlogModal={handleOpenAddBlogModal}
         />
 
         {/* Dynamic Body Content */}
@@ -253,12 +351,27 @@ export default function Admin() {
               {currentTab === 'dashboard' && (
                 <DashboardOverview
                   projects={projects}
+                  blogs={blogs}
+                  isBlogsTableReady={isBlogsReady}
                   profile={profile}
                   messages={messages}
                   isMessagesTableReady={isMessagesReady}
                   onNavigateTab={(tab) => setCurrentTab(tab)}
                   onOpenAddModal={handleOpenAddModal}
+                  onOpenAddBlogModal={handleOpenAddBlogModal}
                   onOpenEditModal={handleOpenEditModal}
+                />
+              )}
+
+              {currentTab === 'blogs' && (
+                <BlogsManager
+                  blogs={blogs}
+                  isTableReady={isBlogsReady}
+                  onOpenAddModal={handleOpenAddBlogModal}
+                  onOpenEditModal={handleOpenEditBlogModal}
+                  onDeleteBlog={handleDeleteBlog}
+                  onTogglePublished={handleToggleBlogPublished}
+                  onNavigateToDatabase={() => setCurrentTab('database')}
                 />
               )}
 
@@ -292,6 +405,8 @@ export default function Admin() {
                 <DatabaseManager
                   supabaseUrl={import.meta.env.VITE_SUPABASE_URL || ''}
                   isPlaceholder={isPlaceholder}
+                  blogCount={blogs.length}
+                  isBlogsReady={isBlogsReady}
                   projectCount={projects.length}
                   messageCount={messages.length}
                   isMessagesReady={isMessagesReady}
@@ -309,6 +424,14 @@ export default function Admin() {
         projectToEdit={projectToEdit}
         onClose={() => setIsModalOpen(false)}
         onSave={handleSaveProject}
+      />
+
+      {/* Add / Edit Blog Modal */}
+      <BlogModal
+        isOpen={isBlogModalOpen}
+        blogToEdit={blogToEdit}
+        onClose={() => setIsBlogModalOpen(false)}
+        onSave={handleSaveBlog}
       />
 
       {/* Floating Notifications */}

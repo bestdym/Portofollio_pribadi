@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { supabase, isPlaceholder } from '../lib/supabase';
+import type { BlogCategory } from '../types/admin';
 
 export interface Project {
   id: string;
@@ -12,6 +13,19 @@ export interface Project {
   github_url: string;
   featured: boolean;
   weight: number;
+}
+
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  category: BlogCategory;
+  excerpt: string;
+  content: string;
+  cover_image?: string | null;
+  gallery_images?: string[] | null;
+  published: boolean;
+  created_at?: string;
 }
 
 export interface Profile {
@@ -32,6 +46,65 @@ const dummyProfile: Profile = {
   avatar_url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Alex',
   social_links: { github: "https://github.com" }
 };
+
+export const dummyBlogs: BlogPost[] = [
+  {
+    id: 'blog-1',
+    title: 'Pengalaman Membangun Aplikasi Web dari Nol Sampai Production',
+    slug: 'pengalaman-membangun-aplikasi-web',
+    category: 'Pengalaman',
+    excerpt: 'Catatan perjalanan, tantangan teknis, dan pelajaran penting saat merilis aplikasi web pertama yang dipakai banyak pengguna.',
+    content: `Memulai sebuah proyek dari halaman kosong selalu terasa seru sekaligus menantang. Di awal, fokus utamanya adalah memastikan arsitektur kode tetap rapi agar mudah dikembangkan di masa depan.
+
+Beberapa hal yang paling banyak saya pelajari selama proses ini adalah pentingnya komunikasi yang jelas, iterasi cepat berdasarkan feedback pengguna, serta menjaga performa tetap ringan di perangkat mobile.
+
+Setelah masuk tahap production, monitoring error dan kecepatan loading menjadi prioritas harian. Dari sini saya sadar bahwa merilis fitur hanyalah awal—merawatnya agar tetap stabil justru bagian yang paling berharga.`,
+    cover_image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&q=80&w=1000',
+    gallery_images: [
+      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&q=80&w=900',
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=900'
+    ],
+    published: true,
+    created_at: new Date(Date.now() - 2 * 86400000).toISOString(),
+  },
+  {
+    id: 'blog-2',
+    title: 'Cerita di Balik Meja Kerja & Rutinitas Ngoding Malam Hari',
+    slug: 'cerita-meja-kerja-dan-ngoding-malam',
+    category: 'Cerita',
+    excerpt: 'Sedikit cerita santai soal setup meja kerja, secangkir kopi, dan kenapa ide desain terbaik sering muncul di jam-jam tenang.',
+    content: `Banyak orang bertanya kapan waktu paling produktif untuk menulis kode atau merancang antarmuka. Buat saya pribadi, suasana malam yang tenang selalu punya daya tarik tersendiri.
+
+Dengan pencahayaan hangat, playlist instrumental pelan, dan catatan kecil di samping laptop, fokus biasanya jauh lebih mudah terjaga. Bukan soal begadang, melainkan memberi ruang tenang untuk berpikir jernih tanpa banyak distraksi.
+
+Setup meja kerja pun saya buat sesimpel mungkin—hanya barang yang benar-benar dipakai setiap hari supaya pikiran ikut terasa lega.`,
+    cover_image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=1000',
+    gallery_images: [
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&q=80&w=900'
+    ],
+    published: true,
+    created_at: new Date(Date.now() - 6 * 86400000).toISOString(),
+  },
+  {
+    id: 'blog-3',
+    title: 'Tanya Jawab: Mulai Belajar Frontend & Memilih Tech Stack',
+    slug: 'tanya-jawab-mulai-belajar-frontend',
+    category: 'Tanya Jawab',
+    excerpt: 'Kumpulan pertanyaan yang paling sering ditanyakan teman-teman seputar belajar coding, React, Flutter, hingga membangun portofolio.',
+    content: `Q: Mulai belajar web development sebaiknya dari mana dulu?
+A: Kuasai fondasi HTML, CSS, dan JavaScript terlebih dahulu. Setelah nyaman membuat halaman statis dan paham logika dasar JS, baru lanjut ke framework seperti React atau Vue.
+
+Q: Lebih baik fokus satu stack atau belajar banyak teknologi sekaligus?
+A: Fokus kuasai satu stack utama sampai bisa bikin proyek nyata dari awal sampai selesai. Setelah fondasinya kuat, berpindah atau mencoba teknologi lain seperti Flutter atau Laravel akan jauh lebih cepat.
+
+Q: Berapa banyak proyek yang ideal untuk ditampilkan di portofolio?
+A: Cukup 3 sampai 5 proyek terbaik yang benar-benar kamu pahami proses pembuatannya. Kualitas, tampilan rapi, dan cerita di balik proyek jauh lebih berarti daripada sekadar jumlah.`,
+    cover_image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&q=80&w=1000',
+    gallery_images: [],
+    published: true,
+    created_at: new Date(Date.now() - 12 * 86400000).toISOString(),
+  }
+];
 
 const dummyProjects: Project[] = [
   {
@@ -63,6 +136,7 @@ const dummyProjects: Project[] = [
 export const usePortfolioData = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
+  const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -77,6 +151,7 @@ export const usePortfolioData = () => {
           setTimeout(() => {
             setProfile(dummyProfile);
             setProjects(dummyProjects);
+            setBlogs(dummyBlogs);
             setLoading(false);
           }, 800); // Simulasi network delay
           return;
@@ -105,7 +180,24 @@ export const usePortfolioData = () => {
           throw projectsError;
         }
 
-        setProjects(projectsData as Project[] || []);
+        setProjects((projectsData as Project[]) || []);
+
+        // Fetch blogs (fallback ke dummyBlogs jika tabel blogs belum dibuat di Supabase)
+        try {
+          const { data: blogsData, error: blogsError } = await supabase
+            .from('blogs')
+            .select('*')
+            .eq('published', true)
+            .order('created_at', { ascending: false });
+
+          if (!blogsError && blogsData) {
+            setBlogs(blogsData as BlogPost[]);
+          } else {
+            setBlogs(dummyBlogs);
+          }
+        } catch {
+          setBlogs(dummyBlogs);
+        }
       } catch (err: any) {
         console.error('Error fetching data:', err);
         setError('Gagal memuat data portofolio.');
@@ -117,5 +209,5 @@ export const usePortfolioData = () => {
     fetchData();
   }, []);
 
-  return { profile, projects, loading, error };
+  return { profile, projects, blogs, loading, error };
 };

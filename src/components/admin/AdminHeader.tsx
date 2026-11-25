@@ -8,12 +8,17 @@ interface AdminHeaderProps {
   onRefresh: () => void;
   isRefreshing: boolean;
   onOpenAddProjectModal: () => void;
+  onOpenAddBlogModal: () => void;
 }
 
 const tabTitles: Record<AdminTab, { title: string; subtitle: string }> = {
   dashboard: {
     title: 'Ringkasan Dashboard',
     subtitle: 'Gambaran umum performa, statistik portofolio, dan aktivitas terkini',
+  },
+  blogs: {
+    title: 'Manajemen Blog',
+    subtitle: 'Tulis dan kelola pengalaman, cerita, atau tanya jawab beserta galeri foto',
   },
   projects: {
     title: 'Manajemen Project',
@@ -39,6 +44,7 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
   onRefresh,
   isRefreshing,
   onOpenAddProjectModal,
+  onOpenAddBlogModal,
 }) => {
   const info = tabTitles[currentTab] || {
     title: 'Admin Dashboard',
@@ -81,13 +87,13 @@ export const AdminHeader: React.FC<AdminHeaderProps> = ({
             <span className="hidden sm:inline">Refresh</span>
           </button>
 
-          {/* Quick Add Project Button */}
+          {/* Quick Add Action Button */}
           <button
-            onClick={onOpenAddProjectModal}
+            onClick={currentTab === 'blogs' ? onOpenAddBlogModal : onOpenAddProjectModal}
             className="flex items-center gap-1.5 px-3.5 py-2 text-xs sm:text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-lg shadow-sm shadow-blue-600/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
           >
             <Plus className="w-4 h-4" />
-            <span>Tambah Project</span>
+            <span>{currentTab === 'blogs' ? 'Tulis Blog' : 'Tambah Project'}</span>
           </button>
 
           {/* View Website */}

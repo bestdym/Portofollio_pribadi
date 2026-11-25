@@ -27,7 +27,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-24 bg-slate-50/50 border-t border-slate-100 relative">
+    <section id="contact" className="py-24 relative">
       <div className="max-w-3xl mx-auto px-6">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Let's Connect</h2>

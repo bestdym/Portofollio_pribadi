@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import HeroSection from './components/sections/HeroSection';
+import BlogSection from './components/sections/BlogSection';
 import ProjectsSection from './components/sections/ProjectsSection';
 import AboutSkillsSection from './components/sections/AboutSkillsSection';
 import ContactSection from './components/sections/ContactSection';
@@ -9,7 +10,7 @@ import { usePortfolioData } from './hooks/usePortfolioData';
 import Admin from './pages/Admin';
 
 function Home() {
-  const { profile, projects, loading, error } = usePortfolioData();
+  const { profile, projects, blogs, loading, error } = usePortfolioData();
 
   return (
     <div className="min-h-screen bg-soft-bg text-soft-text font-sans selection:bg-soft-primary/30">
@@ -24,6 +25,8 @@ function Home() {
         )}
 
         <HeroSection profile={profile} />
+
+        <BlogSection blogs={blogs} loading={loading} />
         
         <ProjectsSection projects={projects} loading={loading} />
         
@@ -33,7 +36,7 @@ function Home() {
       </main>
 
       {/* Footer sederhana & rapi */}
-      <footer className="py-8 text-center text-slate-500 bg-white border-t border-slate-100">
+      <footer className="py-8 text-center text-slate-500 border-t border-slate-200/60">
         <div className="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
           <p>© {new Date().getFullYear()} {profile?.name || 'Developer'}. All rights reserved.</p>
           <div className="flex items-center gap-4">

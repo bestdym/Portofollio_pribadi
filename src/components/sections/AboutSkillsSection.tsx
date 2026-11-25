@@ -18,7 +18,7 @@ const databases = [
 
 export default function AboutSkillsSection() {
   return (
-    <section id="skills" className="pb-24 pt-12 bg-white relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh] border-t border-slate-100">
+    <section id="skills" className="py-24 relative overflow-hidden flex flex-col items-center justify-center min-h-[40vh]">
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center w-full">
         <h2 className="text-3xl md:text-5xl font-bold text-slate-800 mb-16 tracking-tight">Tech Stack</h2>
         

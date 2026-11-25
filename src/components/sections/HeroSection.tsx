@@ -72,7 +72,7 @@ export default function HeroSection({ profile }: { profile: any }) {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            onClick={() => document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })}
             className="px-8 py-4 bg-slate-800 text-white rounded-full font-medium hover:bg-slate-700 transition-colors shadow-lg shadow-slate-200"
           >
             Explore My Universe

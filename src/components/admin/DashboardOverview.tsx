@@ -1,6 +1,7 @@
 import React from 'react';
 import { 
   FolderKanban, 
+  BookOpen,
   Star, 
   Code, 
   Mail, 
@@ -14,25 +15,31 @@ import {
   Sparkles,
   Layers
 } from 'lucide-react';
-import type { ProjectItem, ProfileItem, ContactMessageItem, AdminTab } from '../../types/admin';
+import type { ProjectItem, BlogPostItem, ProfileItem, ContactMessageItem, AdminTab } from '../../types/admin';
 
 interface DashboardOverviewProps {
   projects: ProjectItem[];
+  blogs: BlogPostItem[];
+  isBlogsTableReady: boolean;
   profile: ProfileItem | null;
   messages: ContactMessageItem[];
   isMessagesTableReady: boolean;
   onNavigateTab: (tab: AdminTab) => void;
   onOpenAddModal: () => void;
+  onOpenAddBlogModal: () => void;
   onOpenEditModal: (project: ProjectItem) => void;
 }
 
 export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   projects,
+  blogs,
+  isBlogsTableReady,
   profile,
   messages,
   isMessagesTableReady,
   onNavigateTab,
   onOpenAddModal,
+  onOpenAddBlogModal,
   onOpenEditModal,
 }) => {
   // Statistics calculations
@@ -71,10 +78,17 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
             <button
-              onClick={onOpenAddModal}
+              onClick={onOpenAddBlogModal}
               className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold shadow-lg shadow-blue-600/30 transition-all hover:scale-[1.02] active:scale-[0.98]"
             >
-              <Plus className="w-4 h-4" />
+              <BookOpen className="w-4 h-4" />
+              Tulis Blog Baru
+            </button>
+            <button
+              onClick={onOpenAddModal}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 text-xs sm:text-sm font-medium transition-all"
+            >
+              <Plus className="w-4 h-4 text-slate-300" />
               Tambah Project Baru
             </button>
             <button
@@ -397,6 +411,20 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             </div>
 
             <div className="space-y-2 text-xs">
+              <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-between">
+                <span className="text-slate-400">Tabel `blogs`</span>
+                <span className={`font-medium flex items-center gap-1 ${isBlogsTableReady ? 'text-emerald-400' : 'text-amber-400'}`}>
+                  {isBlogsTableReady ? (
+                    <>
+                      <CheckCircle2 className="w-3.5 h-3.5" /> {blogs.length} data
+                    </>
+                  ) : (
+                    <>
+                      <Clock className="w-3.5 h-3.5" /> Perlu Setup
+                    </>
+                  )}
+                </span>
+              </div>
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-between">
                 <span className="text-slate-400">Tabel `projects`</span>
                 <span className="text-emerald-400 font-medium flex items-center gap-1">
