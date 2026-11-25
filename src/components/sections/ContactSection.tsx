@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
 import { submitContactMessage } from '../../services/contactService';
+import {
+  ScrollReveal,
+  ScrollZoomSection,
+  ParallaxSectionBackdrop,
+} from '../motion/ScrollMotion';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
@@ -23,85 +28,103 @@ export default function ContactSection() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   return (
-    <section id="contact" className="py-24 relative">
-      <div className="max-w-3xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">Let's Connect</h2>
-          <p className="text-slate-500 text-sm md:text-base">Have a project in mind or just want to say hi? Drop a message below.</p>
-        </div>
+    <section id="contact" className="py-24 relative overflow-hidden">
+      <ParallaxSectionBackdrop label="CONNECT" direction="right" />
 
-        <div className="bg-white border border-slate-200/80 shadow-md rounded-3xl p-8 md:p-12">
-          {status === 'success' && (
-            <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-700 rounded-xl text-center font-medium text-sm">
-              Message sent successfully! I'll get back to you soon.
-            </div>
-          )}
-          {status === 'error' && (
-            <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-600 rounded-xl text-center font-medium text-sm">
-              {errorMessage}
-            </div>
-          )}
+      <div className="relative z-10 max-w-3xl mx-auto px-6">
+        <ScrollReveal variant="scale" className="text-center mb-12">
+          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8C6239] mb-2">
+            Get In Touch
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-[#1C1917] mb-4 tracking-tight">
+            Let&apos;s Connect
+          </h2>
+          <p className="text-[#57534E] text-sm md:text-base">
+            Have a project in mind or just want to say hi? Drop a message below.
+          </p>
+        </ScrollReveal>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Scroll-linked Scale (Kecil -> Besar) + Subtle 3D Pitch */}
+        <ScrollZoomSection>
+          <div className="bg-[#FFFDF9] border border-[#E7E1D8] shadow-[0_18px_50px_rgba(28,25,23,0.07)] rounded-3xl p-8 md:p-12">
+            {status === 'success' && (
+              <div className="mb-6 p-4 bg-[#F6F3EE] border border-[#D6C7B2] text-[#1C1917] rounded-xl text-center font-medium text-sm">
+                Message sent successfully! I&apos;ll get back to you soon.
+              </div>
+            )}
+            {status === 'error' && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-xl text-center font-medium text-sm">
+                {errorMessage}
+              </div>
+            )}
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="name" className="text-sm font-medium text-[#292524]">
+                    Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 rounded-xl border border-[#E7E1D8] bg-[#F6F3EE]/60 text-[#1C1917] placeholder:text-[#A8A29E] focus:bg-[#FFFDF9] focus:outline-none focus:ring-2 focus:ring-[#8C6239]/25 focus:border-[#8C6239] transition-all text-sm"
+                    placeholder="John Doe"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor="email" className="text-sm font-medium text-[#292524]">
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={status === 'loading'}
+                    className="w-full px-4 py-3 rounded-xl border border-[#E7E1D8] bg-[#F6F3EE]/60 text-[#1C1917] placeholder:text-[#A8A29E] focus:bg-[#FFFDF9] focus:outline-none focus:ring-2 focus:ring-[#8C6239]/25 focus:border-[#8C6239] transition-all text-sm"
+                    placeholder="john@example.com"
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium text-slate-700">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
+                <label htmlFor="message" className="text-sm font-medium text-[#292524]">
+                  Message
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
                   onChange={handleChange}
                   required
                   disabled={status === 'loading'}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-500 transition-all text-sm"
-                  placeholder="John Doe"
-                />
+                  rows={5}
+                  className="w-full px-4 py-3 rounded-xl border border-[#E7E1D8] bg-[#F6F3EE]/60 text-[#1C1917] placeholder:text-[#A8A29E] focus:bg-[#FFFDF9] focus:outline-none focus:ring-2 focus:ring-[#8C6239]/25 focus:border-[#8C6239] transition-all resize-none text-sm"
+                  placeholder="Your message here..."
+                ></textarea>
               </div>
-              <div className="space-y-2">
-                <label htmlFor="email" className="text-sm font-medium text-slate-700">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  disabled={status === 'loading'}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-500 transition-all text-sm"
-                  placeholder="john@example.com"
-                />
-              </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label htmlFor="message" className="text-sm font-medium text-slate-700">Message</label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
+
+              <button
+                type="submit"
                 disabled={status === 'loading'}
-                rows={5}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-400/40 focus:border-blue-500 transition-all resize-none text-sm"
-                placeholder="Your message here..."
-              ></textarea>
-            </div>
-
-            <button
-              type="submit"
-              disabled={status === 'loading'}
-              className="w-full py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors disabled:opacity-70 shadow-sm"
-            >
-              {status === 'loading' ? 'Sending...' : 'Send Message'}
-            </button>
-          </form>
-        </div>
+                className="w-full py-4 bg-[#1C1917] hover:bg-[#8C6239] text-[#FFFDF9] rounded-xl font-semibold tracking-wide transition-all duration-300 disabled:opacity-70 shadow-[0_10px_24px_rgba(28,25,23,0.14)] hover:scale-[1.01] active:scale-[0.99] cursor-pointer"
+              >
+                {status === 'loading' ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
+          </div>
+        </ScrollZoomSection>
       </div>
     </section>
   );

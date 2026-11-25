@@ -158,31 +158,41 @@ export const usePortfolioData = () => {
         }
 
         // Fetch profile
-        const { data: profileData, error: profileError } = await supabase
-          .from('profiles')
-          .select('*')
-          .limit(1)
-          .maybeSingle();
+        try {
+          const { data: profileData, error: profileError } = await supabase
+            .from('profiles')
+            .select('*')
+            .limit(1)
+            .maybeSingle();
 
-        if (profileError && profileError.code !== 'PGRST116') {
-          console.error('Error fetching profile:', profileError);
-        } else if (profileData) {
-          setProfile(profileData as Profile);
+          if (profileError && profileError.code !== 'PGRST116') {
+            console.error('Error fetching profile:', profileError);
+          } else if (profileData) {
+            setProfile(profileData as Profile);
+          }
+        } catch (profileErr) {
+          console.error('Profile fetch failed:', profileErr);
         }
 
-        // Fetch projects
-        const { data: projectsData, error: projectsError } = await supabase
-          .from('projects')
-          .select('*')
-          .order('created_at', { ascending: false });
+        // Fetch projects (fallback ke dummyProjects jika Supabase gagal/paused)
+        try {
+          const { data: projectsData, error: projectsError } = await supabase
+            .from('projects')
+            .select('*')
+            .order('created_at', { ascending: false });
 
-        if (projectsError) {
-          throw projectsError;
+          if (!projectsError && projectsData) {
+            setProjects(projectsData as Project[]);
+          } else {
+            console.error('Error fetching projects:', projectsError);
+            setProjects(dummyProjects);
+          }
+        } catch (projErr) {
+          console.error('Projects fetch failed:', projErr);
+          setProjects(dummyProjects);
         }
 
-        setProjects((projectsData as Project[]) || []);
-
-        // Fetch blogs (fallback ke dummyBlogs jika tabel blogs belum dibuat di Supabase)
+        // Fetch blogs (fallback ke dummyBlogs jika tabel blogs belum dibuat / offline)
         try {
           const { data: blogsData, error: blogsError } = await supabase
             .from('blogs')

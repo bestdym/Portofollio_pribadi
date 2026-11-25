@@ -1,31 +1,46 @@
 @import "tailwindcss";
 
 @theme {
-  --color-soft-bg: #F8F9FA;
-  --color-soft-surface: rgba(255, 255, 255, 0.7);
-  --color-soft-primary: #A3C4F3;
-  --color-soft-accent: #BEE1E6;
-  --color-soft-text: #2D3748;
+  /* Warm Editorial Palette: Hitam, Abu Tua, Abu Muda, Coklat, Cream, Putih */
+  --color-soft-bg: #F6F3EE;
+  --color-soft-surface: rgba(255, 253, 249, 0.85);
+  --color-soft-primary: #8C6239;
+  --color-soft-accent: #D6C7B2;
+  --color-soft-text: #1C1917;
+
+  --color-warm-black: #1C1917;
+  --color-warm-charcoal: #292524;
+  --color-warm-gray-dark: #57534E;
+  --color-warm-gray-light: #E7E1D8;
+  --color-warm-brown: #8C6239;
+  --color-warm-brown-light: #A9825A;
+  --color-warm-cream: #F6F3EE;
+  --color-warm-white: #FFFDF9;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: var(--color-soft-bg);
     color: var(--color-soft-text);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
 }
 
 @utility clay-card {
   background-color: var(--color-soft-surface);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 8px 8px 16px rgba(163, 196, 243, 0.2), -8px -8px 16px rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(214, 199, 178, 0.45);
+  box-shadow: 0 12px 32px -12px rgba(28, 25, 23, 0.08);
   border-radius: 1rem;
 }
 
 @keyframes twinkle {
-  0% { opacity: 0.1; transform: scale(0.8); }
-  100% { opacity: 0.7; transform: scale(1.2); }
+  0% { opacity: 0.12; transform: scale(0.85); }
+  100% { opacity: 0.55; transform: scale(1.15); }
 }
