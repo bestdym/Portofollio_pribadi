@@ -19,7 +19,7 @@ export const submitContactMessage = async (data: ContactMessage) => {
 
   if (error) {
     console.error('Error submitting message:', error);
-    throw new Error('Gagal mengirim pesan. Silakan coba lagi.');
+    throw new Error('Failed to send message. Please try again.');
   }
 
   return true;

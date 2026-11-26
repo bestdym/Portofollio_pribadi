@@ -35,9 +35,9 @@ type ContentBlock =
 function formatDate(dateString?: string) {
   if (!dateString) return '';
   try {
-    return new Intl.DateTimeFormat('id-ID', {
-      day: 'numeric',
+    return new Intl.DateTimeFormat('en-US', {
       month: 'short',
+      day: 'numeric',
       year: 'numeric',
     }).format(new Date(dateString));
   } catch {
@@ -152,14 +152,14 @@ function InteractiveQAAccordion({
         <div className="flex items-center justify-between mb-1">
           <span className="text-xs font-semibold uppercase tracking-wider text-neutral-400 flex items-center gap-1.5">
             <MessageCircleQuestion className="w-3.5 h-3.5" />
-            {items.length} Pertanyaan Interaktif
+            {items.length} Interactive Questions
           </span>
           <button
             type="button"
             onClick={toggleAll}
             className="text-xs font-medium text-neutral-500 hover:text-neutral-950 transition-colors cursor-pointer"
           >
-            {openIndices.length === items.length ? 'Tutup semua' : 'Buka semua'}
+            {openIndices.length === items.length ? 'Collapse all' : 'Expand all'}
           </button>
         </div>
       )}
@@ -246,7 +246,7 @@ function InteractiveQAAccordion({
                           compact ? 'text-xs sm:text-sm' : 'text-sm sm:text-base'
                         } ${dark ? 'text-neutral-300' : 'text-neutral-600'}`}
                       >
-                        {item.answer || 'Belum ada jawaban.'}
+                        {item.answer || 'No answer yet.'}
                       </p>
                     </div>
                   </div>
@@ -360,15 +360,15 @@ export default function BlogSection({
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
         {/* Section Header */}
-        <ScrollReveal variant="scale" className="text-center mb-14">
+        <ScrollReveal variant="scale" className="text-center mb-16">
           <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
-            Journal & Notes
+            Journal &amp; Notes
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
             Blog
           </h2>
           <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
-            Pengalaman, cerita singkat, serta ruang diskusi & tanya jawab langsung di setiap tulisan.
+            Experiences, short stories, and open discussions on every post.
           </p>
         </ScrollReveal>
 
@@ -384,10 +384,10 @@ export default function BlogSection({
             <div className="bg-neutral-50 rounded-2xl border border-neutral-200 p-12 text-center max-w-lg mx-auto">
               <Sparkles className="w-8 h-8 text-neutral-400 mx-auto mb-3" />
               <p className="text-neutral-900 font-semibold text-base mb-1">
-                Belum ada tulisan blog
+                No blog posts yet
               </p>
               <p className="text-neutral-500 text-sm">
-                Tulisan pengalaman, cerita, atau tanya jawab akan segera hadir di sini.
+                Experiences, stories, and Q&amp;A posts will appear here soon.
               </p>
             </div>
           </ScrollReveal>
@@ -450,7 +450,7 @@ export default function BlogSection({
 
                             {extraPhotosCount > 0 && (
                               <div className="absolute bottom-3 right-3 inline-flex items-center gap-1 text-[11px] font-medium px-2.5 py-1 bg-neutral-950/75 backdrop-blur-md text-white rounded-md">
-                                <Images className="w-3.5 h-3.5" />+{extraPhotosCount} foto
+                                <Images className="w-3.5 h-3.5" />+{extraPhotosCount} photos
                               </div>
                             )}
                           </div>
@@ -489,7 +489,7 @@ export default function BlogSection({
                               {isInteractiveQA && (
                                 <span className="inline-flex items-center gap-1 text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-neutral-200/80 text-neutral-800">
                                   <MessageCircleQuestion className="w-3 h-3" />
-                                  Tanya Jawab
+                                  Q&amp;A
                                 </span>
                               )}
 
@@ -502,7 +502,7 @@ export default function BlogSection({
                                   }`}
                                 >
                                   <Images className="w-3 h-3" />
-                                  {extraPhotosCount} foto
+                                  {extraPhotosCount} photos
                                 </span>
                               )}
                             </div>
@@ -532,7 +532,7 @@ export default function BlogSection({
                                 />
                                 {qaItems.length > 3 && (
                                   <p className="mt-2.5 text-xs text-neutral-400">
-                                    +{qaItems.length - 3} pertanyaan lainnya...
+                                    +{qaItems.length - 3} more questions...
                                   </p>
                                 )}
                               </div>
@@ -566,7 +566,7 @@ export default function BlogSection({
                                   : 'text-neutral-800 group-hover:text-neutral-950'
                               }`}
                             >
-                              {isInteractiveQA ? 'Buka & Diskusi' : 'Baca & Diskusi'}
+                              {isInteractiveQA ? 'Open & Discuss' : 'Read & Discuss'}
                               <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                             </span>
 
@@ -616,7 +616,7 @@ export default function BlogSection({
               <button
                 onClick={() => setSelectedPost(null)}
                 className="p-2 text-neutral-400 hover:text-neutral-950 hover:bg-neutral-100 rounded-full transition-colors cursor-pointer"
-                aria-label="Tutup artikel"
+                aria-label="Close article"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -666,7 +666,7 @@ export default function BlogSection({
                 <div className="pt-6 border-t border-neutral-200/80 space-y-3">
                   <h4 className="text-sm font-bold text-neutral-900 flex items-center gap-2">
                     <Images className="w-4 h-4 text-neutral-600" />
-                    Galeri Foto ({selectedPost.gallery_images.length})
+                    Photo Gallery ({selectedPost.gallery_images.length})
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {selectedPost.gallery_images.map((imgUrl, idx) => (
@@ -677,7 +677,7 @@ export default function BlogSection({
                       >
                         <img
                           src={imgUrl}
-                          alt={`${selectedPost.title} - foto ${idx + 1}`}
+                          alt={`${selectedPost.title} - photo ${idx + 1}`}
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </div>
@@ -704,13 +704,13 @@ export default function BlogSection({
           <button
             onClick={() => setLightboxImage(null)}
             className="absolute top-5 right-5 p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-            aria-label="Tutup pratinjau foto"
+            aria-label="Close photo preview"
           >
             <X className="w-5 h-5" />
           </button>
           <img
             src={lightboxImage}
-            alt="Pratinjau foto"
+            alt="Photo preview"
             onClick={(e) => e.stopPropagation()}
             className="max-w-full max-h-[88vh] rounded-2xl object-contain shadow-2xl cursor-default"
           />

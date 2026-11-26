@@ -23,7 +23,7 @@ export default function ContactSection() {
       setTimeout(() => setStatus('idle'), 5000);
     } catch (err: any) {
       setStatus('error');
-      setErrorMessage(err.message || 'Terjadi kesalahan.');
+      setErrorMessage(err.message || 'Something went wrong. Please try again.');
     }
   };
 
@@ -36,14 +36,14 @@ export default function ContactSection() {
       <ParallaxSectionBackdrop label="CONNECT" direction="right" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-6">
-        <ScrollReveal variant="scale" className="text-center mb-12">
+        <ScrollReveal variant="scale" className="text-center mb-16">
           <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
             Get In Touch
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
             Let&apos;s Connect
           </h2>
-          <p className="text-neutral-500 text-sm md:text-base">
+          <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
             Have a project in mind or just want to say hi? Drop a message below.
           </p>
         </ScrollReveal>

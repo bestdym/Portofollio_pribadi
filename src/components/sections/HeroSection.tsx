@@ -123,13 +123,8 @@ export default function HeroSection({ profile }: { profile: any }) {
             transformStyle: 'preserve-3d',
           }}
         >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.94, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-8"
-          >
-            {/* Animated Bold Display Headline */}
+          <div className="mb-8">
+            {/* Animated Bold Display Headline (Silky smooth fall from top) */}
             <motion.h1
               style={{ y: headingY }}
               aria-label="Software Developer"
@@ -138,60 +133,100 @@ export default function HeroSection({ profile }: { profile: any }) {
               {/* Line 1: SOFTWARE */}
               <motion.span
                 style={{ x: lineOneX }}
-                className="block overflow-hidden py-1"
+                className="block py-1"
               >
                 <span className="inline-flex justify-center text-5xl sm:text-7xl md:text-8xl lg:text-[6.75rem] text-neutral-950">
-                  {firstWord.split('').map((char, i) => (
-                    <motion.span
-                      key={`sw-${i}`}
-                      initial={{ y: '115%', opacity: 0, rotateX: -55 }}
-                      animate={{
-                        y: '0%',
-                        opacity: 1,
-                        rotateX: 0,
-                        transition: {
-                          duration: 0.7,
-                          delay: 0.08 + i * 0.045,
-                          ease: [0.22, 1, 0.36, 1],
-                        },
-                      }}
-                      whileHover={{ y: -8, scale: 1.06 }}
-                      transition={{ type: 'spring', stiffness: 420, damping: 18 }}
-                      className="inline-block will-change-transform cursor-default"
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
+                  {firstWord.split('').map((char, i) => {
+                    const startTilt = (i % 2 === 0 ? -1 : 1) * 4;
+                    const delay = 0.05 + i * 0.04;
+                    return (
+                      <motion.span
+                        key={`sw-${i}`}
+                        initial={{
+                          y: -130,
+                          opacity: 0,
+                          rotate: startTilt,
+                        }}
+                        animate={{
+                          y: 0,
+                          opacity: 1,
+                          rotate: 0,
+                          transition: {
+                            y: {
+                              duration: 0.95,
+                              delay,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                            rotate: {
+                              duration: 0.95,
+                              delay,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                            opacity: {
+                              duration: 0.65,
+                              delay,
+                              ease: 'easeOut',
+                            },
+                          },
+                        }}
+                        whileHover={{ y: -6, scale: 1.04 }}
+                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                        className="inline-block will-change-transform cursor-default"
+                      >
+                        {char}
+                      </motion.span>
+                    );
+                  })}
                 </span>
               </motion.span>
 
               {/* Line 2: DEVELOPER */}
               <motion.span
                 style={{ x: lineTwoX }}
-                className="block overflow-hidden py-1"
+                className="block py-1"
               >
                 <span className="inline-flex justify-center text-5xl sm:text-7xl md:text-8xl lg:text-[6.75rem] text-neutral-500">
-                  {secondWord.split('').map((char, i) => (
-                    <motion.span
-                      key={`dev-${i}`}
-                      initial={{ y: '115%', opacity: 0, rotateX: -55 }}
-                      animate={{
-                        y: '0%',
-                        opacity: 1,
-                        rotateX: 0,
-                        transition: {
-                          duration: 0.7,
-                          delay: 0.32 + i * 0.04,
-                          ease: [0.22, 1, 0.36, 1],
-                        },
-                      }}
-                      whileHover={{ y: -8, scale: 1.06, color: '#0a0a0a' }}
-                      transition={{ type: 'spring', stiffness: 420, damping: 18 }}
-                      className="inline-block will-change-transform cursor-default"
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
+                  {secondWord.split('').map((char, i) => {
+                    const startTilt = (i % 2 === 0 ? 1 : -1) * 4;
+                    const delay = 0.28 + i * 0.038;
+                    return (
+                      <motion.span
+                        key={`dev-${i}`}
+                        initial={{
+                          y: -145,
+                          opacity: 0,
+                          rotate: startTilt,
+                        }}
+                        animate={{
+                          y: 0,
+                          opacity: 1,
+                          rotate: 0,
+                          transition: {
+                            y: {
+                              duration: 1.0,
+                              delay,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                            rotate: {
+                              duration: 1.0,
+                              delay,
+                              ease: [0.16, 1, 0.3, 1],
+                            },
+                            opacity: {
+                              duration: 0.65,
+                              delay,
+                              ease: 'easeOut',
+                            },
+                          },
+                        }}
+                        whileHover={{ y: -6, scale: 1.04, color: '#0a0a0a' }}
+                        transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+                        className="inline-block will-change-transform cursor-default"
+                      >
+                        {char}
+                      </motion.span>
+                    );
+                  })}
                 </span>
               </motion.span>
 
@@ -199,7 +234,7 @@ export default function HeroSection({ profile }: { profile: any }) {
               <motion.span
                 initial={{ scaleX: 0, opacity: 0 }}
                 animate={{ scaleX: 1, opacity: 1 }}
-                transition={{ duration: 0.85, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                transition={{ duration: 1.0, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
                 className="block mx-auto mt-6 h-[3px] w-24 sm:w-32 bg-gradient-to-r from-transparent via-neutral-900 to-transparent origin-center"
               />
             </motion.h1>
@@ -207,15 +242,21 @@ export default function HeroSection({ profile }: { profile: any }) {
             {/* Bio layer */}
             <motion.p
               style={{ y: bioY }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
               className="text-base sm:text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto mb-10 leading-relaxed"
             >
               {profile?.bio ||
-                'I am a frontend engineer passionate about crafting fluid UI experiences and clean modern interfaces.'}
+                'Building reliable, scalable web & mobile applications — turning ideas into clean, high-performance software.'}
             </motion.p>
 
             {/* Buttons layer (drifts slowest for depth separation) */}
             <motion.div
               style={{ y: ctaY }}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
               className="flex items-center justify-center gap-3 flex-wrap"
             >
               <motion.button
@@ -226,7 +267,7 @@ export default function HeroSection({ profile }: { profile: any }) {
                 }
                 className="px-8 py-4 bg-neutral-950 text-white rounded-full font-medium hover:bg-neutral-800 transition-colors duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.14)] cursor-pointer"
               >
-                Explore My Universe
+                Read My Blog
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.04, y: -2 }}
@@ -239,7 +280,7 @@ export default function HeroSection({ profile }: { profile: any }) {
                 View Projects
               </motion.button>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
       </div>
 
@@ -255,7 +296,7 @@ export default function HeroSection({ profile }: { profile: any }) {
           y: { duration: 2.2, repeat: Infinity, ease: 'easeInOut' },
         }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 text-neutral-400 hover:text-neutral-900 transition-colors flex flex-col items-center gap-1.5 text-[11px] uppercase tracking-[0.2em] cursor-pointer z-10"
-        aria-label="Scroll ke bawah"
+        aria-label="Scroll down"
       >
         <span>Scroll</span>
         <ArrowDown className="w-4 h-4" />

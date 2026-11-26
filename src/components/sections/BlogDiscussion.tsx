@@ -20,9 +20,9 @@ interface BlogDiscussionProps {
 
 function formatDateTime(dateStr: string) {
   try {
-    return new Intl.DateTimeFormat('id-ID', {
-      day: 'numeric',
+    return new Intl.DateTimeFormat('en-US', {
       month: 'short',
+      day: 'numeric',
       year: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
@@ -84,7 +84,7 @@ export default function BlogDiscussion({
     e.preventDefault();
     if (!content.trim()) return;
 
-    const finalName = authorName.trim() || 'Pengunjung';
+    const finalName = authorName.trim() || 'Guest';
     rememberName(finalName);
 
     try {
@@ -108,7 +108,7 @@ export default function BlogDiscussion({
     e.preventDefault();
     if (!replyText.trim()) return;
 
-    const finalName = authorName.trim() || 'Pengunjung';
+    const finalName = authorName.trim() || 'Guest';
     rememberName(finalName);
 
     try {
@@ -149,13 +149,13 @@ export default function BlogDiscussion({
       <div className="flex items-center justify-between gap-2">
         <h4 className="text-base font-bold text-neutral-950 flex items-center gap-2">
           <MessageSquare className="w-4 h-4 text-neutral-700" />
-          Diskusi & Tanya Jawab
+          Discussion &amp; Q&amp;A
           <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-neutral-100 text-neutral-600">
             {comments.length}
           </span>
         </h4>
         <span className="text-xs text-neutral-400 hidden sm:inline">
-          Tanya langsung atau tinggalkan komentar
+          Ask a question or leave a comment
         </span>
       </div>
 
@@ -169,7 +169,7 @@ export default function BlogDiscussion({
             type="text"
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
-            placeholder="Nama kamu"
+            placeholder="Your name"
             className="px-3.5 py-2.5 rounded-xl border border-neutral-200 bg-white text-neutral-900 placeholder:text-neutral-400 text-xs sm:text-sm focus:outline-none focus:border-neutral-900 transition-colors"
           />
           <input
@@ -177,13 +177,13 @@ export default function BlogDiscussion({
             required
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="Tulis pertanyaan atau komentar kamu di sini..."
+            placeholder="Write your question or comment here..."
             className="sm:col-span-2 px-3.5 py-2.5 rounded-xl border border-neutral-200 bg-white text-neutral-900 placeholder:text-neutral-400 text-xs sm:text-sm focus:outline-none focus:border-neutral-900 transition-colors"
           />
         </div>
         <div className="flex items-center justify-between gap-2">
           <span className="text-[11px] text-neutral-400">
-            Pertanyaanmu akan langsung tampil dan bisa saya balas di sini.
+            Your message appears right away and I can reply directly here.
           </span>
           <button
             type="submit"
@@ -195,7 +195,7 @@ export default function BlogDiscussion({
             ) : (
               <Send className="w-3.5 h-3.5" />
             )}
-            {submitting ? 'Mengirim...' : 'Kirim'}
+            {submitting ? 'Posting...' : 'Post'}
           </button>
         </div>
       </form>
@@ -204,15 +204,15 @@ export default function BlogDiscussion({
       {loading ? (
         <div className="py-8 flex items-center justify-center gap-2 text-xs text-neutral-400">
           <Loader2 className="w-4 h-4 animate-spin" />
-          Memuat diskusi...
+          Loading discussion...
         </div>
       ) : topLevel.length === 0 ? (
         <div className="py-8 text-center rounded-2xl border border-dashed border-neutral-200 bg-neutral-50/50">
           <p className="text-sm font-medium text-neutral-600">
-            Belum ada pertanyaan atau komentar.
+            No questions or comments yet.
           </p>
           <p className="text-xs text-neutral-400 mt-1">
-            Jadilah yang pertama bertanya atau berdiskusi di tulisan ini!
+            Be the first to ask a question or start a discussion on this post!
           </p>
         </div>
       ) : (
@@ -246,7 +246,7 @@ export default function BlogDiscussion({
                       {comment.is_admin && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-neutral-950 text-white text-[10px] font-semibold">
                           <ShieldCheck className="w-3 h-3" />
-                          Penulis
+                          Author
                         </span>
                       )}
                       <span className="text-[11px] text-neutral-400">
@@ -267,7 +267,7 @@ export default function BlogDiscussion({
                       className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-neutral-500 hover:text-neutral-950 transition-colors cursor-pointer"
                     >
                       <CornerDownRight className="w-3.5 h-3.5" />
-                      {isReplying ? 'Batal balas' : 'Balas'}
+                      {isReplying ? 'Cancel reply' : 'Reply'}
                     </button>
                   </div>
                 </div>
@@ -295,14 +295,10 @@ export default function BlogDiscussion({
                           {reply.is_admin && (
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white text-neutral-950 text-[10px] font-bold">
                               <ShieldCheck className="w-3 h-3" />
-                              Penulis
+                              Author
                             </span>
                           )}
-                          <span
-                            className={`text-[10px] ${
-                              reply.is_admin ? 'text-neutral-400' : 'text-neutral-400'
-                            }`}
-                          >
+                          <span className="text-[10px] text-neutral-400">
                             {formatDateTime(reply.created_at)}
                           </span>
                         </div>
@@ -335,7 +331,7 @@ export default function BlogDiscussion({
                             type="text"
                             value={authorName}
                             onChange={(e) => setAuthorName(e.target.value)}
-                            placeholder="Nama"
+                            placeholder="Name"
                             className="sm:w-32 px-3 py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-xs focus:outline-none focus:border-neutral-900 focus:bg-white"
                           />
                         )}
@@ -345,7 +341,7 @@ export default function BlogDiscussion({
                           autoFocus
                           value={replyText}
                           onChange={(e) => setReplyText(e.target.value)}
-                          placeholder={`Balas ${comment.author_name}...`}
+                          placeholder={`Reply to ${comment.author_name}...`}
                           className="flex-1 px-3 py-2 rounded-xl border border-neutral-200 bg-neutral-50 text-xs focus:outline-none focus:border-neutral-900 focus:bg-white"
                         />
                         <button
@@ -353,7 +349,7 @@ export default function BlogDiscussion({
                           disabled={replySubmitting || !replyText.trim()}
                           className="px-3.5 py-2 rounded-xl bg-neutral-950 hover:bg-neutral-800 text-white text-xs font-semibold transition-colors disabled:opacity-50 cursor-pointer shrink-0"
                         >
-                          {replySubmitting ? '...' : 'Balas'}
+                          {replySubmitting ? '...' : 'Reply'}
                         </button>
                       </div>
                     </motion.form>

@@ -40,9 +40,9 @@ export interface Profile {
 // Dummy data for fallback
 const dummyProfile: Profile = {
   id: 'dummy',
-  name: 'Alex Frontend',
-  title: 'Senior Frontend Engineer',
-  bio: 'Passionate about crafting fluid UI experiences and anti-gravity physics animations.',
+  name: 'Alex Developer',
+  title: 'Software Developer',
+  bio: 'Building reliable, scalable web & mobile applications — turning ideas into clean, high-performance software.',
   avatar_url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Alex',
   social_links: { github: "https://github.com" }
 };
@@ -208,7 +208,7 @@ export const usePortfolioData = () => {
         }
       } catch (err: any) {
         console.error('Error fetching data:', err);
-        setError('Gagal memuat data portofolio.');
+        setError('Failed to load portfolio data.');
       } finally {
         if (!isPlaceholder) setLoading(false);
       }

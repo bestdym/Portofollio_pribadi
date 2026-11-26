@@ -32,13 +32,16 @@ export default function AboutSkillsSection() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center w-full">
         {/* Heading: Kecil -> Besar */}
-        <ScrollReveal variant="scale" className="mb-14">
+        <ScrollReveal variant="scale" className="text-center mb-16">
           <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
             Tools & Craft
           </span>
-          <h2 className="text-3xl md:text-5xl font-bold text-neutral-950 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
             Tech Stack
           </h2>
+          <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
+            Technologies, frameworks, and databases I use to build modern software.
+          </p>
         </ScrollReveal>
 
         <div className="flex flex-col gap-8">
