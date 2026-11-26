@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
 @theme {
+  /* Font tegas untuk Display Headline */
+  --font-display: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
   /* Monochrome Minimalist Palette: Putih, Abu-abu Bertingkat, & Hitam */
   --color-soft-bg: #FFFFFF;
   --color-soft-surface: rgba(250, 250, 250, 0.88);

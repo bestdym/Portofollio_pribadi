@@ -52,10 +52,14 @@ export default function HeroSection({ profile }: { profile: any }) {
   const contentRotateX = useTransform(smoothProgress, [0, 1], [0, 10]);
   const contentOpacity = useTransform(smoothProgress, [0, 0.85], [1, 0.1]);
 
-  const avatarY = useTransform(smoothProgress, [0, 1], [0, -115]);
   const headingY = useTransform(smoothProgress, [0, 1], [0, -75]);
+  const lineOneX = useTransform(smoothProgress, [0, 1], [0, -55]);
+  const lineTwoX = useTransform(smoothProgress, [0, 1], [0, 55]);
   const bioY = useTransform(smoothProgress, [0, 1], [0, -45]);
   const ctaY = useTransform(smoothProgress, [0, 1], [0, -20]);
+
+  const firstWord = 'SOFTWARE';
+  const secondWord = 'DEVELOPER';
 
   return (
     <section
@@ -109,7 +113,7 @@ export default function HeroSection({ profile }: { profile: any }) {
       {/* Layer 3: Staggered Foreground Hero Content */}
       <div
         style={{ perspective: 1200 }}
-        className="relative z-10 text-center px-4 max-w-3xl mx-auto"
+        className="relative z-10 text-center px-4 max-w-5xl mx-auto"
       >
         <motion.div
           style={{
@@ -120,45 +124,84 @@ export default function HeroSection({ profile }: { profile: any }) {
           }}
         >
           <motion.div
-            initial={{ opacity: 0, scale: 0.88, y: 24 }}
+            initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
             className="mb-8"
           >
-            {/* Avatar layer (drifts fastest) */}
-            <motion.div style={{ y: avatarY }}>
-              {profile?.avatar_url ? (
-                <motion.img
-                  whileHover={{ scale: 1.06, rotateZ: -2 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                  src={profile.avatar_url}
-                  alt={profile.name}
-                  className="w-24 h-24 rounded-full mx-auto mb-6 border-4 border-neutral-100 shadow-[0_12px_30px_rgba(0,0,0,0.08)] object-cover bg-neutral-50"
-                />
-              ) : (
-                <motion.div
-                  whileHover={{ scale: 1.06, rotateZ: -3 }}
-                  transition={{ type: 'spring', stiffness: 260, damping: 18 }}
-                  className="w-24 h-24 rounded-full mx-auto mb-6 bg-neutral-100 text-neutral-900 flex items-center justify-center text-4xl shadow-[0_12px_30px_rgba(0,0,0,0.06)] border-4 border-white"
-                >
-                  👋
-                </motion.div>
-              )}
-
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-neutral-50 border border-neutral-200 text-xs font-semibold text-neutral-600 uppercase tracking-[0.18em] mb-5">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-900" />
-                Hello, I am {profile?.name || 'A Developer'}
-              </div>
-            </motion.div>
-
-            {/* Headline layer */}
+            {/* Animated Bold Display Headline */}
             <motion.h1
               style={{ y: headingY }}
-              className="text-4xl sm:text-5xl md:text-7xl font-bold text-neutral-950 tracking-tight mb-6 leading-[1.08]"
+              aria-label="Software Developer"
+              className="font-display font-black uppercase tracking-[-0.04em] leading-[0.94] mb-8 select-none"
             >
-              Building{' '}
-              <span className="text-neutral-500">Digital</span>{' '}
-              Experiences.
+              {/* Line 1: SOFTWARE */}
+              <motion.span
+                style={{ x: lineOneX }}
+                className="block overflow-hidden py-1"
+              >
+                <span className="inline-flex justify-center text-5xl sm:text-7xl md:text-8xl lg:text-[6.75rem] text-neutral-950">
+                  {firstWord.split('').map((char, i) => (
+                    <motion.span
+                      key={`sw-${i}`}
+                      initial={{ y: '115%', opacity: 0, rotateX: -55 }}
+                      animate={{
+                        y: '0%',
+                        opacity: 1,
+                        rotateX: 0,
+                        transition: {
+                          duration: 0.7,
+                          delay: 0.08 + i * 0.045,
+                          ease: [0.22, 1, 0.36, 1],
+                        },
+                      }}
+                      whileHover={{ y: -8, scale: 1.06 }}
+                      transition={{ type: 'spring', stiffness: 420, damping: 18 }}
+                      className="inline-block will-change-transform cursor-default"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
+              </motion.span>
+
+              {/* Line 2: DEVELOPER */}
+              <motion.span
+                style={{ x: lineTwoX }}
+                className="block overflow-hidden py-1"
+              >
+                <span className="inline-flex justify-center text-5xl sm:text-7xl md:text-8xl lg:text-[6.75rem] text-neutral-500">
+                  {secondWord.split('').map((char, i) => (
+                    <motion.span
+                      key={`dev-${i}`}
+                      initial={{ y: '115%', opacity: 0, rotateX: -55 }}
+                      animate={{
+                        y: '0%',
+                        opacity: 1,
+                        rotateX: 0,
+                        transition: {
+                          duration: 0.7,
+                          delay: 0.32 + i * 0.04,
+                          ease: [0.22, 1, 0.36, 1],
+                        },
+                      }}
+                      whileHover={{ y: -8, scale: 1.06, color: '#0a0a0a' }}
+                      transition={{ type: 'spring', stiffness: 420, damping: 18 }}
+                      className="inline-block will-change-transform cursor-default"
+                    >
+                      {char}
+                    </motion.span>
+                  ))}
+                </span>
+              </motion.span>
+
+              {/* Minimalist animated accent rule */}
+              <motion.span
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={{ scaleX: 1, opacity: 1 }}
+                transition={{ duration: 0.85, delay: 0.65, ease: [0.22, 1, 0.36, 1] }}
+                className="block mx-auto mt-6 h-[3px] w-24 sm:w-32 bg-gradient-to-r from-transparent via-neutral-900 to-transparent origin-center"
+              />
             </motion.h1>
 
             {/* Bio layer */}
