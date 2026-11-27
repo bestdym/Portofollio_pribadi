@@ -105,9 +105,9 @@ export function ScrollZoomSection({
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 26,
-    mass: 0.6,
+    stiffness: 200,
+    damping: 36,
+    restDelta: 0.001,
   });
 
   const scale = useTransform(smoothProgress, [0, 1], [0.92, 1]);
@@ -156,9 +156,9 @@ export function ScrollHorizontalTrack({
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 24,
-    mass: 0.5,
+    stiffness: 200,
+    damping: 36,
+    restDelta: 0.001,
   });
 
   const x = useTransform(
@@ -209,9 +209,9 @@ export function ParallaxLayer({
   });
 
   const smooth = useSpring(scrollYProgress, {
-    stiffness: 110,
-    damping: 26,
-    mass: 0.5,
+    stiffness: 200,
+    damping: 36,
+    restDelta: 0.001,
   });
 
   const y = useTransform(smooth, [0, 1], enabled ? [offsetY, -offsetY] : [0, 0]);
@@ -250,9 +250,9 @@ export function ParallaxImage({
   });
 
   const smooth = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 26,
-    mass: 0.45,
+    stiffness: 200,
+    damping: 36,
+    restDelta: 0.001,
   });
 
   const y = useTransform(smooth, [0, 1], [`-${strength}%`, `${strength}%`]);
@@ -292,9 +292,9 @@ export function ParallaxSectionBackdrop({
   });
 
   const smooth = useSpring(scrollYProgress, {
-    stiffness: 90,
-    damping: 28,
-    mass: 0.6,
+    stiffness: 200,
+    damping: 36,
+    restDelta: 0.001,
   });
 
   const textX = useTransform(
@@ -320,12 +320,16 @@ export function ParallaxSectionBackdrop({
         {label}
       </motion.div>
 
-      {/* Soft neutral parallax orb */}
+      {/* Soft neutral parallax orb (radial-gradient for 60fps scroll) */}
       <motion.div
-        style={{ y: orbY }}
+        style={{
+          y: orbY,
+          background:
+            'radial-gradient(circle, rgba(229,229,229,0.55) 0%, rgba(229,229,229,0) 70%)',
+        }}
         className={`absolute top-1/3 ${
           direction === 'left' ? '-right-24' : '-left-24'
-        } w-72 h-72 rounded-full bg-neutral-200/50 blur-3xl will-change-transform`}
+        } w-80 h-80 rounded-full will-change-transform`}
       />
 
       {/* Subtle architectural rotating ring */}

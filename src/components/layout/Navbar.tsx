@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 
 const NAV_ITEMS = [
   { id: 'hero', label: 'Home' },
+  { id: 'experience', label: 'Experience' },
   { id: 'blog', label: 'Blog' },
   { id: 'projects', label: 'Projects' },
   { id: 'skills', label: 'Skills' },
@@ -69,9 +70,9 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -40, opacity: 0, scale: 0.95 }}
-      animate={{ y: 0, opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ y: -24, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
       className="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-fit max-w-[94vw] rounded-full bg-white/55 backdrop-blur-xl border border-white/80 ring-1 ring-neutral-900/[0.07] shadow-[0_12px_36px_rgba(0,0,0,0.07),inset_0_1px_1px_rgba(255,255,255,0.95)] p-1.5"
     >
       <div className="flex items-center gap-0.5 sm:gap-1 text-xs sm:text-sm font-medium">

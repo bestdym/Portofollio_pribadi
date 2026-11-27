@@ -1,7 +1,7 @@
 export const siteProfile = {
-  name: 'bestdym',
+  name: 'Dimas Nurdiansyah',
   title: 'Software Developer',
-  bio: 'Building reliable, scalable web & mobile applications — turning ideas into clean, high-performance software.',
+  bio: 'Full Stack Software Developer building reliable, scalable web & mobile applications with Laravel, React, Vue, Flutter, MySQL, and PostgreSQL.',
   socials: {
     github: {
       label: 'GitHub',

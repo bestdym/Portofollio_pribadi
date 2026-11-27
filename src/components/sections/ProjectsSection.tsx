@@ -53,7 +53,7 @@ export default function ProjectsSection({
     return () => cancelAnimationFrame(raf);
   }, [loading, projects.length, scrollToCard]);
 
-  // Detect whichever card is closest to the horizontal center while scrolling
+  // Detect whichever card is closest to the horizontal center (with hysteresis to prevent jitter)
   const handleScroll = useCallback(() => {
     const container = scrollRef.current;
     if (!container) return;
@@ -61,19 +61,26 @@ export default function ProjectsSection({
     const containerCenter = container.scrollLeft + container.clientWidth / 2;
     let closestIdx = 0;
     let minDistance = Infinity;
+    let activeDistance = Infinity;
 
     cardRefs.current.forEach((card, idx) => {
       if (!card) return;
       const cardCenter = card.offsetLeft + card.clientWidth / 2;
       const distance = Math.abs(containerCenter - cardCenter);
+      if (idx === activeIndex) {
+        activeDistance = distance;
+      }
       if (distance < minDistance) {
         minDistance = distance;
         closestIdx = idx;
       }
     });
 
-    setActiveIndex(closestIdx);
-  }, []);
+    // Only switch active card when clearly closer (prevents rapid flip-flop shake)
+    if (closestIdx !== activeIndex && minDistance + 24 < activeDistance) {
+      setActiveIndex(closestIdx);
+    }
+  }, [activeIndex]);
 
   // Smooth mouse/touchpad drag handlers
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -160,36 +167,42 @@ export default function ProjectsSection({
           </div>
         ) : (
           <div className="relative max-w-[1480px] mx-auto">
-            {/* Left Liquid Glass Arrow */}
+            {/* Top Controls Bar (matching Experience section style) */}
             {projects.length > 1 && (
-              <button
-                type="button"
-                onClick={handlePrev}
-                aria-label="Previous project"
-                className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full absolute left-3 md:left-5 lg:left-7 top-1/2 -translate-y-1/2 z-30 overflow-hidden bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 hover:from-white/95 hover:via-neutral-100/65 hover:to-neutral-200/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_10px_28px_rgba(0,0,0,0.09),0_2px_6px_rgba(0,0,0,0.05),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(0,0,0,0.07)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-1.5 top-0.5 h-5 rounded-full bg-gradient-to-b from-white/95 to-transparent opacity-90"
-                />
-                <ChevronLeft className="relative z-10 w-5 h-5" />
-              </button>
-            )}
+              <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between gap-3 mb-2">
+                <div className="flex items-center gap-2.5 text-xs sm:text-sm text-neutral-500">
+                  <span className="font-display font-bold text-neutral-950">
+                    {String(activeIndex + 1).padStart(2, '0')}
+                    <span className="text-neutral-300 mx-1">/</span>
+                    <span className="text-neutral-400">
+                      {String(projects.length).padStart(2, '0')}
+                    </span>
+                  </span>
+                  <span className="hidden sm:inline text-neutral-300">•</span>
+                  <span className="hidden sm:inline truncate max-w-[260px] text-neutral-500">
+                    {projects[activeIndex]?.title}
+                  </span>
+                </div>
 
-            {/* Right Liquid Glass Arrow */}
-            {projects.length > 1 && (
-              <button
-                type="button"
-                onClick={handleNext}
-                aria-label="Next project"
-                className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full absolute right-3 md:right-5 lg:right-7 top-1/2 -translate-y-1/2 z-30 overflow-hidden bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 hover:from-white/95 hover:via-neutral-100/65 hover:to-neutral-200/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_10px_28px_rgba(0,0,0,0.09),0_2px_6px_rgba(0,0,0,0.05),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(0,0,0,0.07)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-x-1.5 top-0.5 h-5 rounded-full bg-gradient-to-b from-white/95 to-transparent opacity-90"
-                />
-                <ChevronRight className="relative z-10 w-5 h-5" />
-              </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    aria-label="Previous project"
+                    className="relative overflow-hidden w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-b from-white/85 via-neutral-100/55 to-neutral-200/45 hover:from-white hover:to-neutral-200/65 backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.09] shadow-[0_6px_18px_rgba(0,0,0,0.07),inset_0_1.5px_1px_rgba(255,255,255,1)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    aria-label="Next project"
+                    className="relative overflow-hidden w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-b from-white/85 via-neutral-100/55 to-neutral-200/45 hover:from-white hover:to-neutral-200/65 backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.09] shadow-[0_6px_18px_rgba(0,0,0,0.07),inset_0_1.5px_1px_rgba(255,255,255,1)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             )}
 
             {/* Horizontal Center-Focus Carousel Track (Native Touchpad 2-finger Swipe + Mouse Drag) */}
@@ -201,7 +214,7 @@ export default function ProjectsSection({
               onMouseUp={endDrag}
               onMouseLeave={endDrag}
               className={`flex items-stretch gap-5 sm:gap-6 lg:gap-7 overflow-x-auto overscroll-x-contain py-10 px-[calc(50%-145px)] sm:px-[calc(50%-175px)] lg:px-[calc(50%-195px)] select-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
-                isDragging ? 'cursor-grabbing' : 'snap-x snap-proximity cursor-grab'
+                isDragging ? 'cursor-grabbing' : 'cursor-grab'
               }`}
               style={{ perspective: 1200 }}
             >
@@ -327,45 +340,25 @@ export default function ProjectsSection({
               })}
             </div>
 
-            {/* Pagination Dots + Mobile Arrows */}
+            {/* Pagination Dots */}
             {projects.length > 1 && (
-              <div className="mt-2 flex items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  aria-label="Previous project"
-                  className="sm:hidden relative overflow-hidden p-2.5 rounded-full bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_6px_16px_rgba(0,0,0,0.08),inset_0_1.5px_1px_rgba(255,255,255,1),inset_0_-1.5px_3px_rgba(0,0,0,0.06)] text-neutral-700 cursor-pointer"
-                >
-                  <ChevronLeft className="w-4 h-4" />
-                </button>
-
-                <div className="flex items-center gap-2">
-                  {projects.map((project, idx) => {
-                    const isActive = idx === activeIndex;
-                    return (
-                      <button
-                        key={project.id}
-                        type="button"
-                        onClick={() => scrollToCard(idx, 'smooth')}
-                        aria-label={`View ${project.title}`}
-                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                          isActive
-                            ? 'w-7 bg-neutral-950'
-                            : 'w-2 bg-neutral-300 hover:bg-neutral-500'
-                        }`}
-                      />
-                    );
-                  })}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  aria-label="Next project"
-                  className="sm:hidden relative overflow-hidden p-2.5 rounded-full bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_6px_16px_rgba(0,0,0,0.08),inset_0_1.5px_1px_rgba(255,255,255,1),inset_0_-1.5px_3px_rgba(0,0,0,0.06)] text-neutral-700 cursor-pointer"
-                >
-                  <ChevronRight className="w-4 h-4" />
-                </button>
+              <div className="mt-2 flex items-center justify-center gap-2">
+                {projects.map((project, idx) => {
+                  const isActive = idx === activeIndex;
+                  return (
+                    <button
+                      key={project.id}
+                      type="button"
+                      onClick={() => scrollToCard(idx, 'smooth')}
+                      aria-label={`View ${project.title}`}
+                      className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                        isActive
+                          ? 'w-7 bg-neutral-950'
+                          : 'w-2 bg-neutral-300 hover:bg-neutral-500'
+                      }`}
+                    />
+                  );
+                })}
               </div>
             )}
           </div>

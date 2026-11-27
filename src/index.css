@@ -12,10 +12,6 @@
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     background-color: var(--color-soft-bg);
     color: var(--color-soft-text);

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import HeroSection from './components/sections/HeroSection';
+import ExperienceSection from './components/sections/ExperienceSection';
 import BlogSection from './components/sections/BlogSection';
 import ProjectsSection from './components/sections/ProjectsSection';
 import AboutSkillsSection from './components/sections/AboutSkillsSection';
@@ -29,6 +30,8 @@ function Home() {
         )}
 
         <HeroSection />
+
+        <ExperienceSection />
 
         <BlogSection blogs={blogs} loading={loading} />
 

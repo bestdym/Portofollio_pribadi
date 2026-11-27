@@ -18,16 +18,16 @@ export default function HeroSection() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 110,
-    damping: 26,
-    mass: 0.5,
+    stiffness: 200,
+    damping: 36,
+    restDelta: 0.001,
   });
 
   // Subtle pointer-reactive parallax for midground ambient shapes
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
-  const smoothPointerX = useSpring(pointerX, { stiffness: 90, damping: 24 });
-  const smoothPointerY = useSpring(pointerY, { stiffness: 90, damping: 24 });
+  const smoothPointerX = useSpring(pointerX, { stiffness: 120, damping: 30 });
+  const smoothPointerY = useSpring(pointerY, { stiffness: 120, damping: 30 });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -50,8 +50,7 @@ export default function HeroSection() {
   const orbRightY = useTransform(smoothProgress, [0, 1], [0, -90]);
 
   // Layer 3 (Foreground Content): Staggered Z-depth speeds on scroll
-  const contentScale = useTransform(smoothProgress, [0, 1], [1, 0.9]);
-  const contentRotateX = useTransform(smoothProgress, [0, 1], [0, 10]);
+  const contentScale = useTransform(smoothProgress, [0, 1], [1, 0.92]);
   const contentOpacity = useTransform(smoothProgress, [0, 0.85], [1, 0.1]);
 
   const headingY = useTransform(smoothProgress, [0, 1], [0, -75]);
@@ -80,14 +79,24 @@ export default function HeroSection() {
           PORTFOLIO
         </motion.div>
 
-        {/* Soft Gray Ambient Orbs with opposing scroll parallax */}
+        {/* Soft Gray Ambient Orbs (radial-gradient instead of blur-3xl for 60fps scroll) */}
         <motion.div
-          style={{ x: orbLeftX, y: orbLeftY }}
-          className="absolute -top-24 -left-24 w-96 h-96 rounded-full bg-neutral-200/55 blur-3xl will-change-transform"
+          style={{
+            x: orbLeftX,
+            y: orbLeftY,
+            background:
+              'radial-gradient(circle, rgba(229,229,229,0.65) 0%, rgba(229,229,229,0) 70%)',
+          }}
+          className="absolute -top-28 -left-28 w-[28rem] h-[28rem] rounded-full will-change-transform"
         />
         <motion.div
-          style={{ x: orbRightX, y: orbRightY }}
-          className="absolute bottom-6 -right-24 w-[28rem] h-[28rem] rounded-full bg-neutral-300/35 blur-3xl will-change-transform"
+          style={{
+            x: orbRightX,
+            y: orbRightY,
+            background:
+              'radial-gradient(circle, rgba(212,212,212,0.45) 0%, rgba(212,212,212,0) 70%)',
+          }}
+          className="absolute bottom-2 -right-28 w-[32rem] h-[32rem] rounded-full will-change-transform"
         />
 
         {/* Rotating concentric architectural rings */}
@@ -113,16 +122,11 @@ export default function HeroSection() {
       </div>
 
       {/* Layer 3: Staggered Foreground Hero Content */}
-      <div
-        style={{ perspective: 1200 }}
-        className="relative z-10 text-center px-4 max-w-5xl mx-auto"
-      >
+      <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
         <motion.div
           style={{
             scale: contentScale,
-            rotateX: contentRotateX,
             opacity: contentOpacity,
-            transformStyle: 'preserve-3d',
           }}
         >
           <div className="mb-8">
@@ -241,56 +245,57 @@ export default function HeroSection() {
               />
             </motion.h1>
 
-            {/* Bio layer */}
-            <motion.p
-              style={{ y: bioY }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base sm:text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto mb-7 leading-relaxed"
-            >
-              {siteProfile.bio}
-            </motion.p>
+            {/* Bio layer (outer: scroll parallax, inner: entrance — no y conflict!) */}
+            <motion.div style={{ y: bioY }}>
+              <motion.p
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                className="text-base sm:text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto mb-7 leading-relaxed"
+              >
+                {siteProfile.bio}
+              </motion.p>
 
-            {/* Social Links right below bio */}
-            <motion.div
-              style={{ y: bioY }}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
-              className="mb-9"
-            >
-              <SocialLinksBar variant="hero" />
+              {/* Social Links right below bio */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+                className="mb-9"
+              >
+                <SocialLinksBar variant="hero" />
+              </motion.div>
             </motion.div>
 
-            {/* Buttons layer (drifts slowest for depth separation) */}
-            <motion.div
-              style={{ y: ctaY }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="flex items-center justify-center gap-3 flex-wrap"
-            >
-              <motion.button
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() =>
-                  document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })
-                }
-                className="px-8 py-4 bg-neutral-950 text-white rounded-full font-medium hover:bg-neutral-800 transition-colors duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.14)] cursor-pointer"
+            {/* Buttons layer (outer: scroll parallax, inner: entrance — no y conflict!) */}
+            <motion.div style={{ y: ctaY }}>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="flex items-center justify-center gap-3 flex-wrap"
               >
-                Read My Blog
-              </motion.button>
-              <motion.button
-                whileHover={{ scale: 1.04, y: -2 }}
-                whileTap={{ scale: 0.96 }}
-                onClick={() =>
-                  document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
-                }
-                className="px-7 py-4 bg-neutral-50 text-neutral-900 border border-neutral-300 rounded-full font-medium hover:border-neutral-900 hover:bg-neutral-100 transition-colors duration-300 cursor-pointer"
-              >
-                View Projects
-              </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() =>
+                    document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                  className="px-8 py-4 bg-neutral-950 text-white rounded-full font-medium hover:bg-neutral-800 transition-colors duration-300 shadow-[0_14px_30px_rgba(0,0,0,0.14)] cursor-pointer"
+                >
+                  Read My Blog
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.04, y: -2 }}
+                  whileTap={{ scale: 0.96 }}
+                  onClick={() =>
+                    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                  className="px-7 py-4 bg-neutral-50 text-neutral-900 border border-neutral-300 rounded-full font-medium hover:border-neutral-900 hover:bg-neutral-100 transition-colors duration-300 cursor-pointer"
+                >
+                  View Projects
+                </motion.button>
+              </motion.div>
             </motion.div>
           </div>
         </motion.div>
@@ -299,7 +304,7 @@ export default function HeroSection() {
       {/* Subtle Scroll Hint */}
       <motion.button
         onClick={() =>
-          document.getElementById('blog')?.scrollIntoView({ behavior: 'smooth' })
+          document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })
         }
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y: [0, 6, 0] }}
