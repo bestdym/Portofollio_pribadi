@@ -28,25 +28,6 @@ export interface BlogPost {
   created_at?: string;
 }
 
-export interface Profile {
-  id: string;
-  name: string;
-  title: string;
-  bio: string;
-  avatar_url: string;
-  social_links: Record<string, string>;
-}
-
-// Dummy data for fallback
-const dummyProfile: Profile = {
-  id: 'dummy',
-  name: 'Alex Developer',
-  title: 'Software Developer',
-  bio: 'Building reliable, scalable web & mobile applications — turning ideas into clean, high-performance software.',
-  avatar_url: 'https://api.dicebear.com/7.x/notionists/svg?seed=Alex',
-  social_links: { github: "https://github.com" }
-};
-
 export const dummyBlogs: BlogPost[] = [
   {
     id: 'blog-1',
@@ -132,7 +113,6 @@ const dummyProjects: Project[] = [
 ];
 
 export const usePortfolioData = () => {
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [projects, setProjects] = useState<Project[]>([]);
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -147,29 +127,11 @@ export const usePortfolioData = () => {
         // Jika belum setup Supabase, gunakan data dummy agar web tetap menarik
         if (isPlaceholder) {
           setTimeout(() => {
-            setProfile(dummyProfile);
             setProjects(dummyProjects);
             setBlogs(dummyBlogs);
             setLoading(false);
           }, 800); // Simulasi network delay
           return;
-        }
-
-        // Fetch profile
-        try {
-          const { data: profileData, error: profileError } = await supabase
-            .from('profiles')
-            .select('*')
-            .limit(1)
-            .maybeSingle();
-
-          if (profileError && profileError.code !== 'PGRST116') {
-            console.error('Error fetching profile:', profileError);
-          } else if (profileData) {
-            setProfile(profileData as Profile);
-          }
-        } catch (profileErr) {
-          console.error('Profile fetch failed:', profileErr);
         }
 
         // Fetch projects (fallback ke dummyProjects jika Supabase gagal/paused)
@@ -217,5 +179,5 @@ export const usePortfolioData = () => {
     fetchData();
   }, []);
 
-  return { profile, projects, blogs, loading, error };
+  return { projects, blogs, loading, error };
 };

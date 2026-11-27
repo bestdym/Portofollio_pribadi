@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { submitContactMessage } from '../../services/contactService';
+import { SocialLinksBar } from '../SocialLinksBar';
 import {
   ScrollReveal,
   ScrollZoomSection,
@@ -46,6 +47,11 @@ export default function ContactSection() {
           <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
             Have a project in mind or just want to say hi? Drop a message below.
           </p>
+        </ScrollReveal>
+
+        {/* Direct Contact / Social Quick Links */}
+        <ScrollReveal variant="up">
+          <SocialLinksBar variant="cards" />
         </ScrollReveal>
 
         {/* Scroll-linked Scale (Kecil -> Besar) + Subtle 3D Pitch */}

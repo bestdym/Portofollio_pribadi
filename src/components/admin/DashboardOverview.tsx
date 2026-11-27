@@ -15,13 +15,13 @@ import {
   Sparkles,
   Layers
 } from 'lucide-react';
-import type { ProjectItem, BlogPostItem, ProfileItem, ContactMessageItem, AdminTab } from '../../types/admin';
+import type { ProjectItem, BlogPostItem, ContactMessageItem, AdminTab } from '../../types/admin';
+import { siteProfile } from '../../config/siteProfile';
 
 interface DashboardOverviewProps {
   projects: ProjectItem[];
   blogs: BlogPostItem[];
   isBlogsTableReady: boolean;
-  profile: ProfileItem | null;
   messages: ContactMessageItem[];
   isMessagesTableReady: boolean;
   onNavigateTab: (tab: AdminTab) => void;
@@ -34,7 +34,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
   projects,
   blogs,
   isBlogsTableReady,
-  profile,
   messages,
   isMessagesTableReady,
   onNavigateTab,
@@ -70,10 +69,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             Dashboard Administrasi Portofolio
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight">
-            Halo, {profile?.name || 'Developer'}! 👋
+            Halo, {siteProfile.name}! 👋
           </h2>
           <p className="mt-2 text-sm sm:text-base text-slate-300 leading-relaxed">
-            Selamat datang di pusat kendali portofolio Anda. Kelola karya proyek, perbarui profil publik, dan pantau pesan masuk dari pengunjung secara real-time.
+            Selamat datang di pusat kendali portofolio Anda. Kelola tulisan blog, karya proyek, dan pantau pesan masuk dari pengunjung secara real-time.
           </p>
 
           <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -90,13 +89,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             >
               <Plus className="w-4 h-4 text-slate-300" />
               Tambah Project Baru
-            </button>
-            <button
-              onClick={() => onNavigateTab('profile')}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800/80 hover:bg-slate-700/80 text-slate-200 border border-slate-700 text-xs sm:text-sm font-medium transition-all"
-            >
-              <Edit3 className="w-4 h-4 text-slate-400" />
-              Edit Profil Portofolio
             </button>
             <a
               href="/"
@@ -429,12 +421,6 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 <span className="text-slate-400">Tabel `projects`</span>
                 <span className="text-emerald-400 font-medium flex items-center gap-1">
                   <CheckCircle2 className="w-3.5 h-3.5" /> {totalProjects} data
-                </span>
-              </div>
-              <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-between">
-                <span className="text-slate-400">Tabel `profiles`</span>
-                <span className="text-emerald-400 font-medium flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" /> Terkonfigurasi
                 </span>
               </div>
               <div className="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700/60 flex items-center justify-between">

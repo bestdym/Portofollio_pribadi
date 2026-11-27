@@ -32,10 +32,6 @@ const tabTitles: Record<AdminTab, { title: string; subtitle: string }> = {
     title: 'Kotak Masuk Pesan',
     subtitle: 'Pesan dan pertanyaan yang dikirim oleh pengunjung melalui formulir kontak',
   },
-  profile: {
-    title: 'Profil & Bio Pengembang',
-    subtitle: 'Perbarui nama, jabatan, biografi, avatar, dan tautan sosial media',
-  },
   database: {
     title: 'Status Database & SQL Tool',
     subtitle: 'Koneksi Supabase, status tabel, dan skrip SQL pembantu',

@@ -7,8 +7,10 @@ import {
   useMotionValue,
 } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
+import { siteProfile } from '../../config/siteProfile';
+import { SocialLinksBar } from '../SocialLinksBar';
 
-export default function HeroSection({ profile }: { profile: any }) {
+export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -245,11 +247,21 @@ export default function HeroSection({ profile }: { profile: any }) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.9, delay: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="text-base sm:text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto mb-10 leading-relaxed"
+              className="text-base sm:text-lg md:text-xl text-neutral-500 max-w-2xl mx-auto mb-7 leading-relaxed"
             >
-              {profile?.bio ||
-                'Building reliable, scalable web & mobile applications — turning ideas into clean, high-performance software.'}
+              {siteProfile.bio}
             </motion.p>
+
+            {/* Social Links right below bio */}
+            <motion.div
+              style={{ y: bioY }}
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.75, ease: [0.16, 1, 0.3, 1] }}
+              className="mb-9"
+            >
+              <SocialLinksBar variant="hero" />
+            </motion.div>
 
             {/* Buttons layer (drifts slowest for depth separation) */}
             <motion.div

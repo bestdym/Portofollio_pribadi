@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import HeroSection from './components/sections/HeroSection';
 import BlogSection from './components/sections/BlogSection';
@@ -7,11 +7,13 @@ import ProjectsSection from './components/sections/ProjectsSection';
 import AboutSkillsSection from './components/sections/AboutSkillsSection';
 import ContactSection from './components/sections/ContactSection';
 import { ScrollProgressBar } from './components/motion/ScrollMotion';
+import { SocialLinksBar } from './components/SocialLinksBar';
 import { usePortfolioData } from './hooks/usePortfolioData';
+import { siteProfile } from './config/siteProfile';
 import Admin from './pages/Admin';
 
 function Home() {
-  const { profile, projects, blogs, loading, error } = usePortfolioData();
+  const { projects, blogs, loading, error } = usePortfolioData();
 
   return (
     <div className="min-h-screen bg-white text-neutral-950 font-sans selection:bg-neutral-900 selection:text-white overflow-x-clip">
@@ -26,7 +28,7 @@ function Home() {
           </div>
         )}
 
-        <HeroSection profile={profile} />
+        <HeroSection />
 
         <BlogSection blogs={blogs} loading={loading} />
 
@@ -41,17 +43,12 @@ function Home() {
       <footer className="py-10 text-center text-neutral-500 border-t border-neutral-200/80 bg-white">
         <div className="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs sm:text-sm">
           <p className="text-neutral-600">
-            © {new Date().getFullYear()} {profile?.name || 'Developer'}. All rights reserved.
+            © {new Date().getFullYear()} {siteProfile.name}. All rights reserved.
           </p>
           <div className="flex items-center gap-4">
-            <p className="text-neutral-400">Built with React & Supabase</p>
-            <span className="text-neutral-300">•</span>
-            <Link
-              to="/admin"
-              className="text-neutral-500 hover:text-neutral-950 transition-colors font-medium"
-            >
-              Admin
-            </Link>
+            <SocialLinksBar variant="footer" />
+            <span className="text-neutral-300 hidden sm:inline">•</span>
+            <p className="text-neutral-400 hidden sm:block">Built with React & Supabase</p>
           </div>
         </div>
       </footer>

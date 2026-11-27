@@ -32,19 +32,7 @@ export const DatabaseManager: React.FC<DatabaseManagerProps> = ({
 -- SKRIP SETUP SUPABASE LENGKAP - PORTOFOLIO
 -- ==========================================
 
--- 1. Tabel Profil (profiles)
-CREATE TABLE IF NOT EXISTS public.profiles (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name TEXT NOT NULL,
-  title TEXT NOT NULL,
-  bio TEXT,
-  avatar_url TEXT,
-  social_links JSONB DEFAULT '{}'::jsonb,
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
-);
-
--- 2. Tabel Proyek (projects)
+-- 1. Tabel Proyek (projects)
 CREATE TABLE IF NOT EXISTS public.projects (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   title TEXT NOT NULL,
@@ -60,7 +48,7 @@ CREATE TABLE IF NOT EXISTS public.projects (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 3. Tabel Pesan Masuk (messages)
+-- 2. Tabel Pesan Masuk (messages)
 CREATE TABLE IF NOT EXISTS public.messages (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   name TEXT NOT NULL,
@@ -69,7 +57,7 @@ CREATE TABLE IF NOT EXISTS public.messages (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 4. Tabel Blog (blogs)
+-- 3. Tabel Blog (blogs)
 CREATE TABLE IF NOT EXISTS public.blogs (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   title TEXT NOT NULL,
@@ -84,7 +72,7 @@ CREATE TABLE IF NOT EXISTS public.blogs (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- 5. Tabel Diskusi / Tanya Jawab Blog (blog_comments)
+-- 4. Tabel Diskusi / Tanya Jawab Blog (blog_comments)
 CREATE TABLE IF NOT EXISTS public.blog_comments (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   blog_id UUID NOT NULL REFERENCES public.blogs(id) ON DELETE CASCADE,
@@ -99,18 +87,14 @@ CREATE TABLE IF NOT EXISTS public.blog_comments (
 -- ROW LEVEL SECURITY (RLS) POLICIES
 -- ==========================================
 
-ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.blogs ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.blog_comments ENABLE ROW LEVEL SECURITY;
 
--- Publik bisa melihat profil & proyek
-CREATE POLICY "Public profiles read" ON public.profiles FOR SELECT USING (true);
-CREATE POLICY "Public profiles all" ON public.profiles FOR ALL USING (true);
-
+-- Publik bisa melihat proyek & admin bisa kelola
 CREATE POLICY "Public projects read" ON public.projects FOR SELECT USING (true);
-CREATE POLICY "Public projects all" ON public.projects FOR ALL USING (true);
+CREATE POLICY "Public projects all" ON public.projects FOR ALL USING (true) WITH CHECK (true);
 
 -- Publik bisa membaca blog & admin bisa kelola
 CREATE POLICY "Public blogs read" ON public.blogs FOR SELECT USING (true);
@@ -219,14 +203,6 @@ CREATE POLICY "Public messages delete" ON public.messages FOR DELETE USING (true
               <div>
                 <p className="font-mono text-xs font-semibold text-slate-800">projects</p>
                 <p className="text-[11px] text-slate-500 mt-0.5">{projectCount} baris data</p>
-              </div>
-              <CheckCircle2 className="w-5 h-5 text-emerald-500" />
-            </div>
-
-            <div className="p-4 rounded-xl border border-slate-200 flex items-center justify-between bg-white">
-              <div>
-                <p className="font-mono text-xs font-semibold text-slate-800">profiles</p>
-                <p className="text-[11px] text-slate-500 mt-0.5">Terkonfigurasi</p>
               </div>
               <CheckCircle2 className="w-5 h-5 text-emerald-500" />
             </div>

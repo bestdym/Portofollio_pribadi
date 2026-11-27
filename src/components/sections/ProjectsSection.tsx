@@ -160,37 +160,35 @@ export default function ProjectsSection({
           </div>
         ) : (
           <div className="relative max-w-[1480px] mx-auto">
-            {/* Soft White Edge Fades */}
-            <div
-              aria-hidden="true"
-              className="pointer-events-none hidden md:block absolute inset-y-0 left-0 w-24 lg:w-32 bg-gradient-to-r from-white via-white/75 to-transparent z-20"
-            />
-            <div
-              aria-hidden="true"
-              className="pointer-events-none hidden md:block absolute inset-y-0 right-0 w-24 lg:w-32 bg-gradient-to-l from-white via-white/75 to-transparent z-20"
-            />
-
-            {/* Left Frosted Glass Arrow (pushed to outer edge) */}
+            {/* Left Liquid Glass Arrow */}
             {projects.length > 1 && (
               <button
                 type="button"
                 onClick={handlePrev}
                 aria-label="Previous project"
-                className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full absolute left-3 md:left-5 lg:left-7 top-1/2 -translate-y-1/2 z-30 bg-white/75 hover:bg-white backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full absolute left-3 md:left-5 lg:left-7 top-1/2 -translate-y-1/2 z-30 overflow-hidden bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 hover:from-white/95 hover:via-neutral-100/65 hover:to-neutral-200/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_10px_28px_rgba(0,0,0,0.09),0_2px_6px_rgba(0,0,0,0.05),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(0,0,0,0.07)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
               >
-                <ChevronLeft className="w-5 h-5" />
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-1.5 top-0.5 h-5 rounded-full bg-gradient-to-b from-white/95 to-transparent opacity-90"
+                />
+                <ChevronLeft className="relative z-10 w-5 h-5" />
               </button>
             )}
 
-            {/* Right Frosted Glass Arrow (pushed to outer edge) */}
+            {/* Right Liquid Glass Arrow */}
             {projects.length > 1 && (
               <button
                 type="button"
                 onClick={handleNext}
                 aria-label="Next project"
-                className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full absolute right-3 md:right-5 lg:right-7 top-1/2 -translate-y-1/2 z-30 bg-white/75 hover:bg-white backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,1)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+                className="hidden sm:flex items-center justify-center w-12 h-12 rounded-full absolute right-3 md:right-5 lg:right-7 top-1/2 -translate-y-1/2 z-30 overflow-hidden bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 hover:from-white/95 hover:via-neutral-100/65 hover:to-neutral-200/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_10px_28px_rgba(0,0,0,0.09),0_2px_6px_rgba(0,0,0,0.05),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-2px_4px_rgba(0,0,0,0.07)] text-neutral-700 hover:text-neutral-950 hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer"
               >
-                <ChevronRight className="w-5 h-5" />
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-x-1.5 top-0.5 h-5 rounded-full bg-gradient-to-b from-white/95 to-transparent opacity-90"
+                />
+                <ChevronRight className="relative z-10 w-5 h-5" />
               </button>
             )}
 
@@ -336,7 +334,7 @@ export default function ProjectsSection({
                   type="button"
                   onClick={handlePrev}
                   aria-label="Previous project"
-                  className="sm:hidden p-2 rounded-full bg-white/80 border border-neutral-200 text-neutral-700 shadow-xs cursor-pointer"
+                  className="sm:hidden relative overflow-hidden p-2.5 rounded-full bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_6px_16px_rgba(0,0,0,0.08),inset_0_1.5px_1px_rgba(255,255,255,1),inset_0_-1.5px_3px_rgba(0,0,0,0.06)] text-neutral-700 cursor-pointer"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -364,7 +362,7 @@ export default function ProjectsSection({
                   type="button"
                   onClick={handleNext}
                   aria-label="Next project"
-                  className="sm:hidden p-2 rounded-full bg-white/80 border border-neutral-200 text-neutral-700 shadow-xs cursor-pointer"
+                  className="sm:hidden relative overflow-hidden p-2.5 rounded-full bg-gradient-to-b from-white/80 via-neutral-100/50 to-neutral-200/45 backdrop-blur-xl border border-white/90 ring-1 ring-neutral-900/[0.1] shadow-[0_6px_16px_rgba(0,0,0,0.08),inset_0_1.5px_1px_rgba(255,255,255,1),inset_0_-1.5px_3px_rgba(0,0,0,0.06)] text-neutral-700 cursor-pointer"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>

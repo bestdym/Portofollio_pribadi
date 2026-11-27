@@ -5,14 +5,15 @@ import {
   MessageSquare,
   FolderKanban, 
   Mail, 
-  User, 
   Database, 
   ArrowUpRight, 
   Sparkles, 
   ShieldCheck,
+  LogOut,
   X
 } from 'lucide-react';
-import type { AdminTab, ProfileItem } from '../../types/admin';
+import type { AdminTab } from '../../types/admin';
+import { siteProfile } from '../../config/siteProfile';
 
 interface AdminSidebarProps {
   currentTab: AdminTab;
@@ -23,8 +24,8 @@ interface AdminSidebarProps {
   commentCount: number;
   projectCount: number;
   messageCount: number;
-  profile: ProfileItem | null;
   isSupabaseConnected: boolean;
+  onLogout: () => void;
 }
 
 export const AdminSidebar: React.FC<AdminSidebarProps> = ({
@@ -36,8 +37,8 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
   commentCount,
   projectCount,
   messageCount,
-  profile,
   isSupabaseConnected,
+  onLogout,
 }) => {
   const navItems = [
     {
@@ -69,12 +70,6 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
       label: 'Pesan Masuk',
       icon: Mail,
       badge: messageCount > 0 ? messageCount : null,
-    },
-    {
-      id: 'profile' as AdminTab,
-      label: 'Profil & Bio',
-      icon: User,
-      badge: null,
     },
     {
       id: 'database' as AdminTab,
@@ -203,24 +198,28 @@ export const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <ArrowUpRight className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-400 transition-colors" />
           </a>
 
-          <div className="flex items-center gap-3 px-1 pt-1">
-            <img
-              src={profile?.avatar_url || 'https://api.dicebear.com/7.x/notionists/svg?seed=Admin'}
-              alt={profile?.name || 'Admin'}
-              className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 object-cover"
-              onError={(e) => {
-                // Fallback avatar
-                (e.target as HTMLElement).setAttribute('src', 'https://api.dicebear.com/7.x/notionists/svg?seed=Admin');
-              }}
-            />
-            <div className="flex-1 min-w-0">
-              <p className="text-xs font-semibold text-slate-200 truncate">
-                {profile?.name || 'Administrator'}
-              </p>
-              <p className="text-[11px] text-slate-400 truncate">
-                {profile?.title || 'Super Admin'}
-              </p>
+          <div className="flex items-center justify-between gap-2 px-1 pt-1">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-bold text-slate-200 shrink-0">
+                {siteProfile.name.charAt(0).toUpperCase()}
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="text-xs font-semibold text-slate-200 truncate">
+                  {siteProfile.name}
+                </p>
+                <p className="text-[11px] text-slate-400 truncate">
+                  {siteProfile.title}
+                </p>
+              </div>
             </div>
+            <button
+              onClick={onLogout}
+              className="p-2 rounded-lg text-slate-400 hover:text-red-400 hover:bg-slate-800 transition-colors shrink-0 cursor-pointer"
+              title="Keluar dari Admin"
+              aria-label="Keluar dari Admin"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
           </div>
         </div>
       </aside>

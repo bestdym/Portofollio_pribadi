@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, isPlaceholder } from '../lib/supabase';
-import type { ProjectItem, BlogPostItem, BlogCommentItem, ProfileItem, ContactMessageItem, AdminTab, ToastMessage } from '../types/admin';
+import type { ProjectItem, BlogPostItem, BlogCommentItem, ContactMessageItem, AdminTab, ToastMessage } from '../types/admin';
+import { siteProfile } from '../config/siteProfile';
 import { AdminSidebar } from '../components/admin/AdminSidebar';
 import { AdminHeader } from '../components/admin/AdminHeader';
 import { DashboardOverview } from '../components/admin/DashboardOverview';
@@ -10,12 +11,19 @@ import { BlogCommentsManager } from '../components/admin/BlogCommentsManager';
 import { ProjectsManager } from '../components/admin/ProjectsManager';
 import { ProjectModal } from '../components/admin/ProjectModal';
 import { MessagesManager } from '../components/admin/MessagesManager';
-import { ProfileManager } from '../components/admin/ProfileManager';
 import { DatabaseManager } from '../components/admin/DatabaseManager';
 import { ToastNotification } from '../components/admin/ToastNotification';
+import { AdminLogin } from '../components/admin/AdminLogin';
 import { Loader2 } from 'lucide-react';
 
 export default function Admin() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    try {
+      return sessionStorage.getItem('portfolio_admin_auth') === 'authenticated';
+    } catch {
+      return false;
+    }
+  });
   const [currentTab, setCurrentTab] = useState<AdminTab>('dashboard');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   
@@ -25,7 +33,6 @@ export default function Admin() {
   const [isBlogsReady, setIsBlogsReady] = useState(false);
   const [blogComments, setBlogComments] = useState<BlogCommentItem[]>([]);
   const [isCommentsReady, setIsCommentsReady] = useState(false);
-  const [profile, setProfile] = useState<ProfileItem | null>(null);
   const [messages, setMessages] = useState<ContactMessageItem[]>([]);
   const [isMessagesReady, setIsMessagesReady] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -69,18 +76,7 @@ export default function Admin() {
         console.error('Projects fetch error:', projError);
       }
 
-      // 2. Fetch profile
-      const { data: profData, error: profError } = await supabase
-        .from('profiles')
-        .select('*')
-        .limit(1)
-        .maybeSingle();
-
-      if (!profError && profData) {
-        setProfile(profData as ProfileItem);
-      }
-
-      // 3. Fetch messages (if table exists)
+      // 2. Fetch messages (if table exists)
       try {
         const { data: msgData, error: msgError } = await supabase
           .from('messages')
@@ -140,8 +136,19 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
+    if (isAuthenticated) {
+      fetchData();
+    }
+  }, [isAuthenticated]);
+
+  const handleLogout = () => {
+    try {
+      sessionStorage.removeItem('portfolio_admin_auth');
+    } catch {
+      // ignore
+    }
+    setIsAuthenticated(false);
+  };
 
   // Handlers for Projects
   const handleOpenAddModal = () => {
@@ -303,7 +310,7 @@ export default function Admin() {
       {
         blog_id: blogId,
         parent_id: parentId,
-        author_name: profile?.name || 'Penulis',
+        author_name: siteProfile.name || 'Author',
         content: replyContent,
         is_admin: true,
       },
@@ -332,30 +339,6 @@ export default function Admin() {
     }
   };
 
-  // Handlers for Profile
-  const handleSaveProfile = async (profileData: Partial<ProfileItem>) => {
-    if (profile?.id) {
-      const { error } = await supabase
-        .from('profiles')
-        .update({
-          ...profileData,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', profile.id);
-
-      if (error) throw error;
-    } else {
-      const { error } = await supabase
-        .from('profiles')
-        .insert([profileData]);
-
-      if (error) throw error;
-    }
-
-    addToast('success', 'Profil Berhasil Disimpan', 'Informasi profil dan bio Anda telah diperbarui.');
-    fetchData(true);
-  };
-
   // Handlers for Messages
   const handleDeleteMessage = async (id: string) => {
     if (!window.confirm('Yakin ingin menghapus pesan ini?')) return;
@@ -371,6 +354,10 @@ export default function Admin() {
     }
   };
 
+  if (!isAuthenticated) {
+    return <AdminLogin onLoginSuccess={() => setIsAuthenticated(true)} />;
+  }
+
   return (
     <div className="min-h-screen bg-slate-100/70 text-slate-800 flex">
       {/* Sidebar Component */}
@@ -383,8 +370,8 @@ export default function Admin() {
         commentCount={blogComments.filter((c) => !c.parent_id).length}
         projectCount={projects.length}
         messageCount={messages.length}
-        profile={profile}
         isSupabaseConnected={!isPlaceholder}
+        onLogout={handleLogout}
       />
 
       {/* Main Content Area */}
@@ -413,7 +400,6 @@ export default function Admin() {
                   projects={projects}
                   blogs={blogs}
                   isBlogsTableReady={isBlogsReady}
-                  profile={profile}
                   messages={messages}
                   isMessagesTableReady={isMessagesReady}
                   onNavigateTab={(tab) => setCurrentTab(tab)}
@@ -462,13 +448,6 @@ export default function Admin() {
                   isTableReady={isMessagesReady}
                   onDeleteMessage={handleDeleteMessage}
                   onRefresh={() => fetchData(true)}
-                />
-              )}
-
-              {currentTab === 'profile' && (
-                <ProfileManager
-                  profile={profile}
-                  onSaveProfile={handleSaveProfile}
                 />
               )}
 

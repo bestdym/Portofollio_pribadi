@@ -13,23 +13,6 @@ export interface ProjectItem {
   updated_at?: string;
 }
 
-export interface ProfileItem {
-  id: string;
-  name: string;
-  title: string;
-  bio: string;
-  avatar_url?: string | null;
-  social_links?: {
-    github?: string;
-    linkedin?: string;
-    twitter?: string;
-    instagram?: string;
-    [key: string]: string | undefined;
-  } | null;
-  created_at?: string;
-  updated_at?: string;
-}
-
 export type BlogCategory = 'Pengalaman' | 'Cerita' | 'Tanya Jawab';
 
 export interface BlogPostItem {
@@ -64,7 +47,7 @@ export interface ContactMessageItem {
   created_at: string;
 }
 
-export type AdminTab = 'dashboard' | 'blogs' | 'comments' | 'projects' | 'messages' | 'profile' | 'database';
+export type AdminTab = 'dashboard' | 'blogs' | 'comments' | 'projects' | 'messages' | 'database';
 
 export interface ToastMessage {
   id: string;
