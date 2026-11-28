@@ -5,6 +5,7 @@ import type { Project } from '../../hooks/usePortfolioData';
 import {
   ScrollReveal,
   Tilt3DCard,
+  ParallaxLayer,
   ParallaxSectionBackdrop,
 } from '../motion/ScrollMotion';
 import { ExternalLink, Code, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -135,17 +136,19 @@ export default function ProjectsSection({
       <div className="relative z-10 w-full">
         {/* Section Header */}
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <ScrollReveal variant="scale" className="text-center mb-12">
-            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
-              Selected Works
-            </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
-              Featured Projects
-            </h2>
-            <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
-              Explore a selection of my recent work and personal projects.
-            </p>
-          </ScrollReveal>
+          <ParallaxLayer offsetY={-32} desktopOnly>
+            <ScrollReveal variant="scale" className="text-center mb-12">
+              <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
+                Selected Works
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
+                Featured Projects
+              </h2>
+              <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
+                Explore a selection of my recent work and personal projects.
+              </p>
+            </ScrollReveal>
+          </ParallaxLayer>
         </div>
 
         {loading ? (
@@ -205,19 +208,20 @@ export default function ProjectsSection({
               </div>
             )}
 
-            {/* Horizontal Center-Focus Carousel Track (Native Touchpad 2-finger Swipe + Mouse Drag) */}
-            <div
-              ref={scrollRef}
-              onScroll={handleScroll}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={endDrag}
-              onMouseLeave={endDrag}
-              className={`flex items-stretch gap-5 sm:gap-6 lg:gap-7 overflow-x-auto overscroll-x-contain py-10 px-[calc(50%-145px)] sm:px-[calc(50%-175px)] lg:px-[calc(50%-195px)] select-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
-                isDragging ? 'cursor-grabbing' : 'cursor-grab'
-              }`}
-              style={{ perspective: 1200 }}
-            >
+            {/* Horizontal Center-Focus Carousel Track with Pronounced Vertical Parallax */}
+            <ParallaxLayer offsetY={58} desktopOnly>
+              <div
+                ref={scrollRef}
+                onScroll={handleScroll}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={endDrag}
+                onMouseLeave={endDrag}
+                className={`flex items-stretch gap-5 sm:gap-6 lg:gap-7 overflow-x-auto overscroll-x-contain py-10 px-[calc(50%-145px)] sm:px-[calc(50%-175px)] lg:px-[calc(50%-195px)] select-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] ${
+                  isDragging ? 'cursor-grabbing' : 'cursor-grab'
+                }`}
+                style={{ perspective: 1200 }}
+              >
               {projects.map((project, index) => {
                 const isActive = index === activeIndex;
                 const offset = index - activeIndex;
@@ -338,7 +342,8 @@ export default function ProjectsSection({
                   </div>
                 );
               })}
-            </div>
+              </div>
+            </ParallaxLayer>
 
             {/* Pagination Dots */}
             {projects.length > 1 && (

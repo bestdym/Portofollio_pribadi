@@ -33,24 +33,53 @@ const SOCIAL_ITEMS = [
     ...siteProfile.socials.github,
     icon: GitHubSvg,
     external: true,
+    pillHover:
+      'hover:bg-[#181717] hover:border-[#181717] hover:text-white hover:shadow-[0_8px_20px_rgba(24,23,23,0.22)]',
+    cardHover:
+      'hover:border-[#181717]/40 hover:shadow-[0_10px_24px_rgba(24,23,23,0.1)]',
+    cardIconHover:
+      'group-hover:bg-[#181717] group-hover:border-[#181717] group-hover:text-white',
+    footerHover: 'hover:bg-[#181717] hover:border-[#181717] hover:text-white',
   },
   {
     key: 'whatsapp',
     ...siteProfile.socials.whatsapp,
     icon: WhatsAppSvg,
     external: true,
+    pillHover:
+      'hover:bg-[#25D366] hover:border-[#25D366] hover:text-white hover:shadow-[0_8px_20px_rgba(37,211,102,0.3)]',
+    cardHover:
+      'hover:border-[#25D366]/60 hover:shadow-[0_10px_24px_rgba(37,211,102,0.16)]',
+    cardIconHover:
+      'group-hover:bg-[#25D366] group-hover:border-[#25D366] group-hover:text-white',
+    footerHover: 'hover:bg-[#25D366] hover:border-[#25D366] hover:text-white',
   },
   {
     key: 'email',
     ...siteProfile.socials.email,
     icon: Mail,
     external: false,
+    pillHover:
+      'hover:bg-[#EA4335] hover:border-[#EA4335] hover:text-white hover:shadow-[0_8px_20px_rgba(234,67,53,0.28)]',
+    cardHover:
+      'hover:border-[#EA4335]/50 hover:shadow-[0_10px_24px_rgba(234,67,53,0.14)]',
+    cardIconHover:
+      'group-hover:bg-[#EA4335] group-hover:border-[#EA4335] group-hover:text-white',
+    footerHover: 'hover:bg-[#EA4335] hover:border-[#EA4335] hover:text-white',
   },
   {
     key: 'instagram',
     ...siteProfile.socials.instagram,
     icon: InstagramSvg,
     external: true,
+    pillHover:
+      'hover:bg-gradient-to-tr hover:from-[#FEDA75] hover:via-[#FA7E1E] hover:to-[#D62976] hover:border-transparent hover:text-white hover:shadow-[0_8px_20px_rgba(214,41,118,0.28)]',
+    cardHover:
+      'hover:border-[#E1306C]/50 hover:shadow-[0_10px_24px_rgba(225,48,108,0.16)]',
+    cardIconHover:
+      'group-hover:bg-gradient-to-tr group-hover:from-[#FEDA75] group-hover:via-[#FA7E1E] group-hover:to-[#D62976] group-hover:border-transparent group-hover:text-white',
+    footerHover:
+      'hover:bg-gradient-to-tr hover:from-[#FEDA75] hover:via-[#FA7E1E] hover:to-[#D62976] hover:border-transparent hover:text-white',
   },
 ];
 
@@ -70,9 +99,11 @@ export function SocialLinksBar({
               href={item.url}
               target={item.external ? '_blank' : undefined}
               rel={item.external ? 'noopener noreferrer' : undefined}
-              className="group flex items-center gap-3 p-3.5 rounded-2xl bg-neutral-50/80 hover:bg-white border border-neutral-200 hover:border-neutral-400 shadow-[0_4px_16px_rgba(0,0,0,0.03)] hover:shadow-[0_10px_24px_rgba(0,0,0,0.07)] transition-all duration-300"
+              className={`group flex items-center gap-3 p-3.5 rounded-2xl bg-neutral-50/80 hover:bg-white border border-neutral-200 shadow-[0_4px_16px_rgba(0,0,0,0.03)] transition-all duration-300 ${item.cardHover}`}
             >
-              <div className="w-10 h-10 rounded-xl bg-white group-hover:bg-neutral-950 border border-neutral-200 group-hover:border-neutral-950 text-neutral-700 group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-300">
+              <div
+                className={`w-10 h-10 rounded-xl bg-white border border-neutral-200 text-neutral-700 flex items-center justify-center shrink-0 transition-all duration-300 ${item.cardIconHover}`}
+              >
                 <Icon className="w-4 h-4" />
               </div>
               <div className="min-w-0 text-left">
@@ -103,7 +134,7 @@ export function SocialLinksBar({
               rel={item.external ? 'noopener noreferrer' : undefined}
               title={`${item.label}: ${item.handle}`}
               aria-label={item.label}
-              className="w-8 h-8 rounded-full border border-neutral-200 bg-neutral-50 hover:bg-neutral-950 hover:border-neutral-950 text-neutral-500 hover:text-white flex items-center justify-center transition-all duration-200"
+              className={`w-8 h-8 rounded-full border border-neutral-200 bg-neutral-50 text-neutral-500 flex items-center justify-center transition-all duration-200 ${item.footerHover}`}
             >
               <Icon className="w-3.5 h-3.5" />
             </a>
@@ -113,7 +144,7 @@ export function SocialLinksBar({
     );
   }
 
-  // Default: 'hero' — crisp frosted glass icon pills
+  // Default: 'hero' — crisp frosted glass icon pills with brand-colored hover
   return (
     <div className="flex items-center justify-center gap-2.5 sm:gap-3 flex-wrap">
       {SOCIAL_ITEMS.map((item) => {
@@ -128,7 +159,7 @@ export function SocialLinksBar({
             whileTap={{ scale: 0.96 }}
             title={`${item.label}: ${item.handle}`}
             aria-label={item.label}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/75 hover:bg-neutral-950 backdrop-blur-md border border-neutral-200/90 hover:border-neutral-950 shadow-[0_4px_14px_rgba(0,0,0,0.04)] text-neutral-600 hover:text-white text-xs font-medium transition-colors duration-250"
+            className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/75 backdrop-blur-md border border-neutral-200/90 shadow-[0_4px_14px_rgba(0,0,0,0.04)] text-neutral-600 text-xs font-medium transition-all duration-250 ${item.pillHover}`}
           >
             <Icon className="w-3.5 h-3.5" />
             <span>{item.label}</span>

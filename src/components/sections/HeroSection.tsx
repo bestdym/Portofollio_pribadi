@@ -33,31 +33,33 @@ export default function HeroSection() {
     const rect = e.currentTarget.getBoundingClientRect();
     const nx = (e.clientX - rect.left) / rect.width - 0.5;
     const ny = (e.clientY - rect.top) / rect.height - 0.5;
-    pointerX.set(nx * 28);
-    pointerY.set(ny * 20);
+    pointerX.set(nx * 40);
+    pointerY.set(ny * 28);
   };
 
-  // Layer 1 (Far Background): Slow-moving watermark & concentric ring
-  const bgWatermarkY = useTransform(smoothProgress, [0, 1], [0, 180]);
-  const bgWatermarkScale = useTransform(smoothProgress, [0, 1], [1, 1.12]);
-  const ringRotate = useTransform(smoothProgress, [0, 1], [0, 40]);
-  const ringY = useTransform(smoothProgress, [0, 1], [0, 130]);
+  // Layer 1 (Far Background): Wide-drifting watermark & counter-rotating rings
+  const bgWatermarkY = useTransform(smoothProgress, [0, 1], [0, 320]);
+  const bgWatermarkScale = useTransform(smoothProgress, [0, 1], [1, 1.24]);
+  const ringRotate = useTransform(smoothProgress, [0, 1], [0, 140]);
+  const ringY = useTransform(smoothProgress, [0, 1], [0, 240]);
+  const innerRingRotate = useTransform(smoothProgress, [0, 1], [0, -90]);
+  const innerRingY = useTransform(smoothProgress, [0, 1], [0, 150]);
 
-  // Layer 2 (Midground Orbs): Opposite horizontal + vertical drift
-  const orbLeftX = useTransform(smoothProgress, [0, 1], [0, -120]);
-  const orbLeftY = useTransform(smoothProgress, [0, 1], [0, 140]);
-  const orbRightX = useTransform(smoothProgress, [0, 1], [0, 120]);
-  const orbRightY = useTransform(smoothProgress, [0, 1], [0, -90]);
+  // Layer 2 (Midground Orbs): Strong opposite horizontal + vertical drift
+  const orbLeftX = useTransform(smoothProgress, [0, 1], [0, -210]);
+  const orbLeftY = useTransform(smoothProgress, [0, 1], [0, 240]);
+  const orbRightX = useTransform(smoothProgress, [0, 1], [0, 210]);
+  const orbRightY = useTransform(smoothProgress, [0, 1], [0, -190]);
 
-  // Layer 3 (Foreground Content): Staggered Z-depth speeds on scroll
-  const contentScale = useTransform(smoothProgress, [0, 1], [1, 0.92]);
-  const contentOpacity = useTransform(smoothProgress, [0, 0.85], [1, 0.1]);
+  // Layer 3 (Foreground Content): Clear staggered Z-depth speeds on scroll
+  const contentScale = useTransform(smoothProgress, [0, 1], [1, 0.86]);
+  const contentOpacity = useTransform(smoothProgress, [0, 0.88], [1, 0.05]);
 
-  const headingY = useTransform(smoothProgress, [0, 1], [0, -75]);
-  const lineOneX = useTransform(smoothProgress, [0, 1], [0, -55]);
-  const lineTwoX = useTransform(smoothProgress, [0, 1], [0, 55]);
-  const bioY = useTransform(smoothProgress, [0, 1], [0, -45]);
-  const ctaY = useTransform(smoothProgress, [0, 1], [0, -20]);
+  const headingY = useTransform(smoothProgress, [0, 1], [0, -155]);
+  const lineOneX = useTransform(smoothProgress, [0, 1], [0, -150]);
+  const lineTwoX = useTransform(smoothProgress, [0, 1], [0, 150]);
+  const bioY = useTransform(smoothProgress, [0, 1], [0, -95]);
+  const ctaY = useTransform(smoothProgress, [0, 1], [0, -35]);
 
   const firstWord = 'SOFTWARE';
   const secondWord = 'DEVELOPER';
@@ -74,7 +76,7 @@ export default function HeroSection() {
         {/* Far background editorial watermark */}
         <motion.div
           style={{ y: bgWatermarkY, scale: bgWatermarkScale }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[7rem] sm:text-[11rem] md:text-[15rem] font-black tracking-[0.16em] text-neutral-950/[0.03] uppercase will-change-transform"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[7rem] sm:text-[11rem] md:text-[15rem] font-black tracking-[0.16em] text-neutral-950/[0.045] uppercase will-change-transform"
         >
           PORTFOLIO
         </motion.div>
@@ -114,11 +116,15 @@ export default function HeroSection() {
 
         <motion.div
           style={{
-            y: smoothPointerY,
+            y: innerRingY,
+            rotate: innerRingRotate,
             x: smoothPointerX,
           }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] md:w-[28rem] md:h-[28rem] rounded-full border border-dashed border-neutral-300/70 will-change-transform"
-        />
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[22rem] h-[22rem] md:w-[28rem] md:h-[28rem] rounded-full border border-dashed border-neutral-300/80 will-change-transform"
+        >
+          <span className="absolute top-1/2 -left-1 -translate-y-1/2 w-2 h-2 rounded-full bg-neutral-400/70" />
+          <span className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 rounded-full bg-neutral-400/70" />
+        </motion.div>
       </div>
 
       {/* Layer 3: Staggered Foreground Hero Content */}

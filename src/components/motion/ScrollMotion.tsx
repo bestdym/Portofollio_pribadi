@@ -110,10 +110,10 @@ export function ScrollZoomSection({
     restDelta: 0.001,
   });
 
-  const scale = useTransform(smoothProgress, [0, 1], [0.92, 1]);
-  const rotateX = useTransform(smoothProgress, [0, 1], [8, 0]);
-  const y = useTransform(smoothProgress, [0, 1], [32, 0]);
-  const opacity = useTransform(smoothProgress, [0, 0.4, 1], [0.35, 0.9, 1]);
+  const scale = useTransform(smoothProgress, [0, 1], [0.84, 1]);
+  const rotateX = useTransform(smoothProgress, [0, 1], [16, 0]);
+  const y = useTransform(smoothProgress, [0, 1], [85, 0]);
+  const opacity = useTransform(smoothProgress, [0, 0.35, 1], [0.2, 0.88, 1]);
 
   return (
     <div ref={ref} style={{ perspective: 1400 }} className={className}>
@@ -241,7 +241,7 @@ export function ParallaxImage({
   src,
   alt,
   className = '',
-  strength = 12,
+  strength = 26,
 }: ParallaxImageProps) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
@@ -263,7 +263,7 @@ export function ParallaxImage({
         src={src}
         alt={alt}
         draggable={false}
-        style={{ y, scale: 1.24 }}
+        style={{ y, scale: 1.54 }}
         className={`w-full h-full object-cover will-change-transform ${className}`}
         onError={(e) => {
           (e.target as HTMLElement).style.display = 'none';
@@ -279,7 +279,12 @@ interface ParallaxSectionBackdropProps {
 }
 
 /**
- * Subtle multi-plane background parallax layer with faint editorial watermark & warm ambient ring
+ * Pronounced 5-plane monochrome background parallax layer:
+ * 1) Far drifting watermark typography
+ * 2) Dual opposing soft radial orbs (60fps GPU-friendly, zero blur-3xl)
+ * 3) Rotating orbital ring with satellite markers
+ * 4) Counter-moving architectural wireframe box
+ * 5) Fast near-plane floating crosshair markers
  */
 export function ParallaxSectionBackdrop({
   label,
@@ -300,11 +305,22 @@ export function ParallaxSectionBackdrop({
   const textX = useTransform(
     smooth,
     [0, 1],
-    direction === 'left' ? ['8%', '-10%'] : ['-10%', '8%']
+    direction === 'left' ? ['26%', '-28%'] : ['-28%', '26%']
   );
-  const textY = useTransform(smooth, [0, 1], [60, -60]);
-  const orbY = useTransform(smooth, [0, 1], [-80, 90]);
-  const ringRotate = useTransform(smooth, [0, 1], [0, direction === 'left' ? 35 : -35]);
+  const textY = useTransform(smooth, [0, 1], [170, -170]);
+  const textScale = useTransform(smooth, [0, 0.5, 1], [0.92, 1.03, 1.08]);
+
+  const orb1Y = useTransform(smooth, [0, 1], [-190, 210]);
+  const orb1X = useTransform(smooth, [0, 1], direction === 'left' ? [-50, 70] : [50, -70]);
+  const orb2Y = useTransform(smooth, [0, 1], [200, -180]);
+
+  const ringY = useTransform(smooth, [0, 1], [180, -210]);
+  const ringRotate = useTransform(smooth, [0, 1], [0, direction === 'left' ? 150 : -150]);
+
+  const boxY = useTransform(smooth, [0, 1], [-160, 190]);
+  const boxRotate = useTransform(smooth, [0, 1], direction === 'left' ? [-28, 48] : [28, -48]);
+
+  const crossY = useTransform(smooth, [0, 1], [230, -230]);
 
   return (
     <div
@@ -312,33 +328,66 @@ export function ParallaxSectionBackdrop({
       aria-hidden="true"
       className="pointer-events-none absolute inset-0 overflow-hidden select-none z-0"
     >
-      {/* Slow-drifting editorial watermark */}
+      {/* Plane 1 (Far): Wide-drifting editorial watermark */}
       <motion.div
-        style={{ x: textX, y: textY }}
-        className="absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-[6.5rem] sm:text-[9rem] md:text-[12rem] font-black tracking-[0.18em] text-neutral-950/[0.03] uppercase will-change-transform"
+        style={{ x: textX, y: textY, scale: textScale }}
+        className="absolute top-16 left-1/2 -translate-x-1/2 whitespace-nowrap text-[7rem] sm:text-[10rem] md:text-[13.5rem] font-black tracking-[0.18em] text-neutral-950/[0.048] uppercase will-change-transform"
       >
         {label}
       </motion.div>
 
-      {/* Soft neutral parallax orb (radial-gradient for 60fps scroll) */}
+      {/* Plane 2 (Mid-Far): Dual opposing soft radial orbs */}
       <motion.div
         style={{
-          y: orbY,
+          x: orb1X,
+          y: orb1Y,
           background:
-            'radial-gradient(circle, rgba(229,229,229,0.55) 0%, rgba(229,229,229,0) 70%)',
+            'radial-gradient(circle, rgba(212,212,212,0.58) 0%, rgba(212,212,212,0) 70%)',
         }}
-        className={`absolute top-1/3 ${
+        className={`absolute top-1/4 ${
           direction === 'left' ? '-right-24' : '-left-24'
-        } w-80 h-80 rounded-full will-change-transform`}
+        } w-[26rem] h-[26rem] rounded-full will-change-transform`}
       />
 
-      {/* Subtle architectural rotating ring */}
       <motion.div
-        style={{ y: textY, rotate: ringRotate }}
-        className={`absolute bottom-12 ${
-          direction === 'left' ? 'left-8' : 'right-8'
-        } w-44 h-44 rounded-full border border-dashed border-neutral-300/80 hidden md:block will-change-transform`}
+        style={{
+          y: orb2Y,
+          background:
+            'radial-gradient(circle, rgba(229,229,229,0.52) 0%, rgba(229,229,229,0) 70%)',
+        }}
+        className={`absolute bottom-10 ${
+          direction === 'left' ? '-left-20' : '-right-20'
+        } w-[22rem] h-[22rem] rounded-full will-change-transform`}
       />
+
+      {/* Plane 3 (Mid): Rotating architectural orbital ring with satellite dots */}
+      <motion.div
+        style={{ y: ringY, rotate: ringRotate }}
+        className={`absolute bottom-14 ${
+          direction === 'left' ? 'left-6 lg:left-12' : 'right-6 lg:right-12'
+        } w-52 h-52 rounded-full border border-dashed border-neutral-300/90 hidden md:block will-change-transform`}
+      >
+        <span className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-neutral-400/80" />
+        <span className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-neutral-800/40" />
+      </motion.div>
+
+      {/* Plane 4 (Mid-Near): Counter-moving rotating wireframe square */}
+      <motion.div
+        style={{ y: boxY, rotate: boxRotate }}
+        className={`absolute top-28 ${
+          direction === 'left' ? 'right-10 lg:right-20' : 'left-10 lg:left-20'
+        } w-20 h-20 rounded-2xl border border-neutral-300/80 hidden md:block will-change-transform`}
+      />
+
+      {/* Plane 5 (Near): Fast vertical floating architectural crosshair */}
+      <motion.div
+        style={{ y: crossY }}
+        className={`absolute top-1/2 ${
+          direction === 'left' ? 'left-10' : 'right-10'
+        } text-neutral-300 text-2xl font-light hidden lg:block will-change-transform`}
+      >
+        +
+      </motion.div>
     </div>
   );
 }

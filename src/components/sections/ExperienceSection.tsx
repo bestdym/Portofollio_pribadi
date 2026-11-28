@@ -6,6 +6,7 @@ import {
 } from '../../data/experienceData';
 import {
   ScrollReveal,
+  ParallaxLayer,
   ParallaxSectionBackdrop,
 } from '../motion/ScrollMotion';
 import {
@@ -132,18 +133,20 @@ export default function ExperienceSection() {
       <ParallaxSectionBackdrop label="EXPERIENCE" direction="right" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
-        {/* Section Header */}
-        <ScrollReveal variant="scale" className="text-center mb-14">
-          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
-            Career &amp; Milestones
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
-            Experience
-          </h2>
-          <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
-            Rotate the year dial to explore my work history, awards, certifications, and key milestones.
-          </p>
-        </ScrollReveal>
+        {/* Section Header with subtle upward parallax */}
+        <ParallaxLayer offsetY={-28} desktopOnly>
+          <ScrollReveal variant="scale" className="text-center mb-14">
+            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
+              Career &amp; Milestones
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
+              Experience
+            </h2>
+            <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
+              Rotate the year dial to explore my work history, awards, certifications, and key milestones.
+            </p>
+          </ScrollReveal>
+        </ParallaxLayer>
 
         {/* Mobile & Tablet Curved Horizontal Year Selector */}
         <div className="lg:hidden mb-8 flex flex-col items-center">
@@ -195,12 +198,13 @@ export default function ExperienceSection() {
           </div>
         </div>
 
-        {/* Main Split: Left Curved Rotary Year Dial + Right Scrollable Experience Cards */}
+        {/* Main Split: Left Curved Rotary Year Dial + Right Scrollable Experience Cards (opposing parallax planes) */}
         <div className="flex flex-col lg:flex-row items-stretch lg:items-center gap-8 lg:gap-10">
           {/* LEFT: Curved Rotary Year Dial (Desktop) */}
-          <div
-            className="hidden lg:flex flex-col items-center justify-center relative w-[240px] xl:w-[260px] h-[360px] shrink-0 select-none"
-          >
+          <ParallaxLayer offsetY={65} desktopOnly className="hidden lg:block shrink-0">
+            <div
+              className="flex flex-col items-center justify-center relative w-[240px] xl:w-[260px] h-[360px] select-none"
+            >
             {/* Rotate Up Arrow */}
             <button
               type="button"
@@ -327,10 +331,12 @@ export default function ExperienceSection() {
             >
               <ChevronDown className="w-4 h-4" />
             </button>
-          </div>
+            </div>
+          </ParallaxLayer>
 
           {/* RIGHT: Year Summary + Horizontal Scrollable Experience Cards */}
-          <div className="flex-1 min-w-0 flex flex-col">
+          <ParallaxLayer offsetY={-35} desktopOnly className="flex-1 min-w-0">
+            <div className="flex flex-col">
             {/* Active Year Bar + Scroll Controls */}
             <div className="flex flex-wrap items-center justify-between gap-3 mb-5 px-1">
               <div>
@@ -479,7 +485,8 @@ export default function ExperienceSection() {
                 <span>Scroll horizontally for more</span>
               </div>
             )}
-          </div>
+            </div>
+          </ParallaxLayer>
         </div>
       </div>
     </section>

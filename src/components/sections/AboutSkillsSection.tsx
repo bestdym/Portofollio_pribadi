@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import {
   ScrollReveal,
   ScrollHorizontalTrack,
+  ParallaxLayer,
   ParallaxSectionBackdrop,
 } from '../motion/ScrollMotion';
 
@@ -31,22 +32,24 @@ export default function AboutSkillsSection() {
       <ParallaxSectionBackdrop label="STACK" direction="left" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center w-full">
-        {/* Heading: Kecil -> Besar */}
-        <ScrollReveal variant="scale" className="text-center mb-16">
-          <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
-            Tools & Craft
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
-            Tech Stack
-          </h2>
-          <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
-            Technologies, frameworks, and databases I use to build modern software.
-          </p>
-        </ScrollReveal>
+        {/* Heading: Kecil -> Besar with upward parallax */}
+        <ParallaxLayer offsetY={-28} desktopOnly>
+          <ScrollReveal variant="scale" className="text-center mb-16">
+            <span className="inline-block text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-400 mb-2">
+              Tools & Craft
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-neutral-950 mb-4 tracking-tight">
+              Tech Stack
+            </h2>
+            <p className="text-neutral-500 max-w-lg mx-auto text-sm md:text-base">
+              Technologies, frameworks, and databases I use to build modern software.
+            </p>
+          </ScrollReveal>
+        </ParallaxLayer>
 
         <div className="flex flex-col gap-8">
-          {/* Row 1: Scroll-driven Right -> Left */}
-          <ScrollHorizontalTrack direction="left" distance={72}>
+          {/* Row 1: Strong Scroll-driven Right -> Left */}
+          <ScrollHorizontalTrack direction="left" distance={190}>
             <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
               {languages.map((skill, idx) => (
                 <ScrollReveal key={skill.name} variant="scale" delay={idx * 0.04}>
@@ -69,8 +72,8 @@ export default function AboutSkillsSection() {
             </div>
           </ScrollHorizontalTrack>
 
-          {/* Row 2: Scroll-driven Left -> Right */}
-          <ScrollHorizontalTrack direction="right" distance={56}>
+          {/* Row 2: Strong Scroll-driven Left -> Right */}
+          <ScrollHorizontalTrack direction="right" distance={175}>
             <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
               {databases.map((skill, idx) => (
                 <ScrollReveal key={skill.name} variant="scale" delay={idx * 0.06}>
